@@ -7,7 +7,7 @@ import java.awt.event.*;
 public class HomePage {
 	
 	JPanel panel ;
-	
+	UserInformation userInformation = new UserInformation();
 	
 	public void ShowGUI() {
         JFrame frame = new JFrame("Science Laboratory Inventory System");
@@ -86,7 +86,9 @@ public class HomePage {
         innerPanel3.add(itemNameLabel1, gbc);
 
         gbc.gridx = 1;
-        innerPanel3.add(new JTextField(16), gbc);//first input
+        
+        JTextField textFieldEmail = new JTextField(16); 
+        innerPanel3.add(textFieldEmail, gbc);//second input
 
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -96,12 +98,14 @@ public class HomePage {
         itemNameLabel2.setForeground(Color.WHITE);
         innerPanel3.add(itemNameLabel2, gbc);
 
+        
         gbc.gridx = 1;
-        innerPanel3.add(new JTextField(16), gbc);//second input
+        JTextField textFieldPassword = new JTextField(16); 
+        innerPanel3.add(textFieldPassword, gbc);//second input
         
         
     
-     // GridBagConstraints for Sign In button
+  
         GridBagConstraints gbcSignInButton = new GridBagConstraints();
         gbcSignInButton.gridx = 1;
         gbcSignInButton.gridy = 5;
@@ -111,13 +115,17 @@ public class HomePage {
         JButton signInButton = new JButton("SIGN IN");
         Color skyBlue = new Color(135, 206, 235);
         signInButton.setBackground(skyBlue.darker());
-        signInButton.setForeground(Color.WHITE); // Set text color to white
+        signInButton.setForeground(Color.WHITE);
         innerPanel3.add(signInButton, gbcSignInButton);
 
         signInButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Add your sign-in logic here
+               
                 System.out.println("Sign In button clicked");
+                String inputtedEmail = textFieldEmail.getText();
+                String inputtedPassword = textFieldPassword.getText();
+                userInformation.loadFromJson();
+                userInformation.loginAccount(inputtedEmail,inputtedPassword);
             }
         });
 

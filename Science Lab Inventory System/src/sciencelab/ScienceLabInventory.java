@@ -11,6 +11,6 @@ public class ScienceLabInventory {
     public static void main(String[] args) {
         
     	//recoveryPage.StartRecovery();
-      homePage.ShowGUI();
+   homePage.ShowGUI();
     }
 }

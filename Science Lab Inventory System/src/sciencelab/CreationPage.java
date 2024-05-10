@@ -191,7 +191,7 @@ public class CreationPage {
 
         
     
-     // GridBagConstraints for Sign In button
+  
         GridBagConstraints gbcSignInButton = new GridBagConstraints();
         gbcSignInButton.gridx = 1;
         gbcSignInButton.gridy = 6;
@@ -201,7 +201,7 @@ public class CreationPage {
         JButton signUpButton = new JButton("SIGN UP");
         Color skyBlue = new Color(135, 206, 235);
         signUpButton.setBackground(skyBlue.darker());
-        signUpButton.setForeground(Color.WHITE); // Set text color to white
+        signUpButton.setForeground(Color.WHITE); 
         innerPanel3.add(signUpButton, gbcSignInButton);
 
         signUpButton.addActionListener(new ActionListener() {
@@ -213,7 +213,8 @@ public class CreationPage {
                 String inputtedBirthday = textField.getText(); 
                 String inputtedFirstName = textFieldFirstName.getText(); 
                 String inputtedLastName = textFieldLastName.getText(); 
-                userInformation.CreateAccount(inputtedEmail, inputtedIDNumber, inputtedBirthday, inputtedFirstName, inputtedLastName);
+                userInformation.loadFromJson(); // read *******************
+             userInformation.createAccount(inputtedEmail, inputtedIDNumber, inputtedBirthday, inputtedFirstName, inputtedLastName);
                
             }
         });
@@ -221,7 +222,7 @@ public class CreationPage {
         
 
   
-     // GridBagConstraints for Sign Up label
+    
         GridBagConstraints gbcSignUpLabel = new GridBagConstraints();
         gbcSignUpLabel.gridx = 1;
         gbcSignUpLabel.gridy = 6;
@@ -250,7 +251,7 @@ public class CreationPage {
                    homePage.ShowGUI();
                
                    JFrame CreationPageFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
-                   CreationPageFrame.dispose(); // Close the current frame
+                   CreationPageFrame.dispose(); 
                
                    
        		 
