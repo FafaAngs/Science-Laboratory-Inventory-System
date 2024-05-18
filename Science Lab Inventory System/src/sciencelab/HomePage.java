@@ -6,11 +6,16 @@ import java.awt.event.*;
 
 public class HomePage {
 	
-	JPanel panel ;
+	static JPanel panel ;
 	UserInformation userInformation = new UserInformation();
+	
+	  
+	
+	
 	
 	public void ShowGUI() {
         JFrame frame = new JFrame("Science Laboratory Inventory System");
+      //  frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1300, 800);
         frame.setLocationRelativeTo(null);
@@ -29,11 +34,15 @@ public class HomePage {
         }; 
         
         panel.setLayout(new BorderLayout());
+     
+       
+        
 
         JLabel label = new JLabel("SCIENCE LABORATORY INVENTORY SYSTEM");
-        label.setForeground(Color.ORANGE);
-        label.setFont(new Font("Serif", Font.PLAIN, 36));
-        label.setBackground(Color.DARK_GRAY.brighter()); 
+        label.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 60)); // Add border
+        label.setForeground(Color.black.brighter());
+        label.setFont(new Font("Serif", Font.BOLD, 36));
+        label.setBackground(Color.orange.darker()); 
         label.setOpaque(true); 
 
         JPanel innerPanel = new JPanel();  
@@ -47,8 +56,8 @@ public class HomePage {
 
         ImageIcon icon = new ImageIcon("CTU.png"); 
         JLabel imageLabel = new JLabel(icon);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0)); // Add border
         
-
         JPanel innerPanel3 = new JPanel(); 
         innerPanel3.setLayout(new GridBagLayout());
         innerPanel3.setBackground(new Color(64, 64, 64, 0));
@@ -58,14 +67,15 @@ public class HomePage {
         gbc.anchor = GridBagConstraints.WEST;
       
         Font font = new Font("Serif", Font.BOLD, 24);
-        JLabel headerMainPage = new JLabel("<html><font color='#CCCCCC'>Cebu Technological University</font><br><font color='black'>Sign in</font><br><font color='#CCCCCC'>to continue to CTU Laboratory</font></html>");
+        JLabel headerMainPage = new JLabel("<html><font color='#CCCCCC'>Sign in<br>Cebu Technological University</font></html>");
+
         headerMainPage.setFont(font);
 
 
 
-        headerMainPage.setHorizontalAlignment(SwingConstants.CENTER); // Center the text horizontally
+        headerMainPage.setHorizontalAlignment(SwingConstants.CENTER); 
 
-        // GridBagConstraints for POTANGG INA label
+       
         GridBagConstraints gbcHeader = new GridBagConstraints();
         gbcHeader.gridx = 0;  
         gbcHeader.gridy = 0;  
@@ -125,13 +135,12 @@ public class HomePage {
                 String inputtedEmail = textFieldEmail.getText();
                 String inputtedPassword = textFieldPassword.getText();
                 userInformation.loadFromJson();
-                userInformation.loginAccount(inputtedEmail,inputtedPassword);
+                userInformation.loginAccount(inputtedEmail,inputtedPassword,panel);
             }
         });
 
         
 
-     // GridBagConstraints for Forgot Password label
         GridBagConstraints gbcForgotPasswordLabel = new GridBagConstraints();
         gbcForgotPasswordLabel.gridx = 1;
         gbcForgotPasswordLabel.gridy = 4;
@@ -149,17 +158,16 @@ public class HomePage {
                
                     System.out.println("forgot password ");
                     RecoveryPage recoveryPage = new RecoveryPage();
-                    recoveryPage.StartRecovery();
-                    
+                    recoveryPage.StartRecovery();            
                     JFrame loginHomePage = (JFrame) SwingUtilities.getWindowAncestor(panel);
-                    loginHomePage.dispose(); // Close the current frame
+                    loginHomePage.dispose(); 
                     
         		 
         	 }
                 
         });
   
-     // GridBagConstraints for Sign Up label
+    
         GridBagConstraints gbcSignUpLabel = new GridBagConstraints();
         gbcSignUpLabel.gridx = 1;
         gbcSignUpLabel.gridy = 5;
@@ -202,8 +210,14 @@ public class HomePage {
        });
 
         innerPanel3.add(signUpLinkLabel, gbcSignUpLinkLabel);
+        
+        ImageIcon iconLogo = new ImageIcon("BagongMukha.png"); 
+        JLabel imageLabelLogo = new JLabel(iconLogo);
+        imageLabelLogo.setBorder(BorderFactory.createEmptyBorder(30, 0, 450, 60)); // Add border
+        innerPanel.add(imageLabelLogo,BorderLayout.EAST);
 
-
+      
+        
 
         innerPanel2.add(innerPanel3,BorderLayout.SOUTH);
         innerPanel2.add(imageLabel,BorderLayout.NORTH);
@@ -214,9 +228,10 @@ public class HomePage {
         frame.add(panel);
         frame.setVisible(true);
         
+        
     }
 	
-	  public JPanel getPanel() {
-	        return panel;
-	    }
+	
+	  
+	
 }

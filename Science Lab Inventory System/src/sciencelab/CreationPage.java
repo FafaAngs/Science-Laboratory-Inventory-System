@@ -11,8 +11,10 @@ public class CreationPage {
 	UserInformation userInformation = new UserInformation(); 
 	JPanel panel;
 	
+	
 	public void createAndShowGUI() {
         JFrame frame = new JFrame("Science Laboratory Inventory System");
+     //   frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1300, 800);
         frame.setLocationRelativeTo(null);
@@ -32,9 +34,10 @@ public class CreationPage {
         panel.setLayout(new BorderLayout());
 
         JLabel label = new JLabel("SCIENCE LABORATORY INVENTORY SYSTEM");
-        label.setForeground(Color.ORANGE);
-        label.setFont(new Font("Serif", Font.PLAIN, 36));
-        label.setBackground(Color.DARK_GRAY.brighter()); 
+        label.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 60)); // Add border
+        label.setForeground(Color.black.brighter());
+        label.setFont(new Font("Serif", Font.BOLD, 36));
+        label.setBackground(Color.orange.darker()); 
         label.setOpaque(true); 
 
         JPanel innerPanel = new JPanel();  
@@ -48,6 +51,7 @@ public class CreationPage {
 
         ImageIcon icon = new ImageIcon("CTU.png"); 
         JLabel imageLabel = new JLabel(icon);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0)); // Add border
         
 
         JPanel innerPanel3 = new JPanel(); 
@@ -59,7 +63,7 @@ public class CreationPage {
         gbc.anchor = GridBagConstraints.WEST;
       
         Font font = new Font("Serif", Font.BOLD, 24);
-        JLabel headerMainPage = new JLabel("<html><font color='#CCCCCC'>Cebu Technological University</font><br><font color='black'>Create your Account</font><br><font color='#CCCCCC'>to continue to CTU Laboratory</font></html>");
+        JLabel headerMainPage = new JLabel("<html><font color='#CCCCCC'>Create your Account</font><br><font color='#CCCCCC'>Cebu Technological University</font></html>");
         headerMainPage.setFont(font);
 
 
@@ -196,7 +200,7 @@ public class CreationPage {
         gbcSignInButton.gridx = 1;
         gbcSignInButton.gridy = 6;
         gbcSignInButton.gridwidth = 1;
-        gbcSignInButton.insets = new Insets(10, 90, 0, 0);
+        gbcSignInButton.insets = new Insets(10, 90, 0, -10);
 
         JButton signUpButton = new JButton("SIGN UP");
         Color skyBlue = new Color(135, 206, 235);
@@ -214,7 +218,7 @@ public class CreationPage {
                 String inputtedFirstName = textFieldFirstName.getText(); 
                 String inputtedLastName = textFieldLastName.getText(); 
                 userInformation.loadFromJson(); // read *******************
-             userInformation.createAccount(inputtedEmail, inputtedIDNumber, inputtedBirthday, inputtedFirstName, inputtedLastName);
+               userInformation.createAccount(inputtedEmail, inputtedIDNumber, inputtedBirthday, inputtedFirstName, inputtedLastName);
                
             }
         });
@@ -260,6 +264,10 @@ public class CreationPage {
        });
 
         innerPanel3.add(signUpLinkLabel, gbcSignUpLinkLabel);
+        ImageIcon iconLogo = new ImageIcon("BagongMukha.png"); 
+        JLabel imageLabelLogo = new JLabel(iconLogo);
+        imageLabelLogo.setBorder(BorderFactory.createEmptyBorder(30, 0, 450, 60)); // Add border
+        innerPanel.add(imageLabelLogo,BorderLayout.EAST);
 
 
 

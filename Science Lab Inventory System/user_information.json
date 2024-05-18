@@ -1,21 +1,80 @@
 {
+  "sciencelabitems": {
+    "materials": [
+      400,
+      400,
+      400,
+      400,
+      400,
+      400
+    ],
+    "equipments": [
+      40,
+      40,
+      40,
+      40,
+      40,
+      40
+    ]
+  },
+  "lastLogin": "Saturday, May 18, 2024\n6:51:01 PM",
+  "index": 0,
   "password": "CTULibrary",
   "Email": [
-    "mario@gmail.com"
+    "angilbertzkie@gmail.com",
+    "dylangwapo@gmail.com",
+    "dylangw1apo@gmail.com",
+    "angilbert1zkie@gmail.com",
+    "clark@gmail.com"
   ],
   "Password": [
-    "CTULibrary0"
+    "CTULibrary0",
+    "CTULibrary1",
+    "CTULibrary2",
+    "CTULibrary3",
+    "CTULibrary4"
   ],
   "IDNumber": [
-    "123123"
+    "1111111",
+    "12312312",
+    "123123",
+    "111312",
+    "41241"
   ],
   "LastName": [
-    "mario"
+    "Angcon",
+    "gwapo",
+    "asdas",
+    "sdasd",
+    "pogi"
   ],
   "Birthdate": [
-    "2024-05-14"
+    "2024-05-15",
+    "2024-08-20",
+    "2024-05-06",
+    "2024-05-23",
+    "2024-05-29"
   ],
   "FirstName": [
-    "mariomaw"
-  ]
+    "Angilbert",
+    "dylan",
+    "asdasd",
+    "asdasda",
+    "clark"
+  ],
+  "AccountDateCreated": [
+    "Sunday, May 12, 2024\n3:24:52 PM",
+    "Monday, May 13, 2024\n12:46:58 PM",
+    "Monday, May 13, 2024\n12:48:05 PM",
+    "Monday, May 13, 2024\n12:50:04 PM",
+    "Friday, May 17, 2024\n10:27:44 PM"
+  ],
+  "LastLogin": [
+    "Saturday, May 18, 2024\n6:51:01 PM",
+    "Monday, May 13, 2024\n12:50:04 PM",
+    "",
+    "",
+    "Saturday, May 18, 2024\n6:29:21 PM"
+  ],
+  "UserHistory": []
 }

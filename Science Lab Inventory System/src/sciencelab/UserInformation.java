@@ -2,24 +2,49 @@ package sciencelab;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javax.swing.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+
+
+
 public class UserInformation {
+	
+	static Date currentDate = new Date();
+	public static HomePage homePage = new HomePage();
+	ScienceLabItems sciencelabitems = new ScienceLabItems();
+	 
+	
+	public static boolean firstTimeLogin=false;
+	
     private static final String JSON_FILE = "user_information.json"; 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$");
     private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z]+$");
+    
+  
 
+    String lastLogin;
+    String userActivity;
+    int index;
     private String password = "CTULibrary";
 
-    private List<String> Email = new ArrayList<>();
-    private List<String> Password = new ArrayList<>();
+    public List<String> Email = new ArrayList<>();
+    public List<String> Password = new ArrayList<>();
     private List<String> IDNumber = new ArrayList<>();
     private List<String> LastName = new ArrayList<>();
     private List<String> Birthdate = new ArrayList<>();
     private List<String> FirstName = new ArrayList<>();
+    private List<String> AccountDateCreated = new ArrayList<>();
+    private List<String> LastLogin = new ArrayList<>();
+    private List<String> UserHistory = new ArrayList<>();
+    
 
   
 
@@ -72,15 +97,109 @@ public class UserInformation {
         LastName.add(lastName);
         Password.add(password + Email.indexOf(emailAddress));
         showPasswordDialog(password + Email.indexOf(emailAddress));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\nh:mm:ss a");
+    	String formattedDateTime = dateFormat.format(currentDate);
+    	AccountDateCreated.add(formattedDateTime);
+    	LastLogin.add("");
+    	UserHistory.add("");
 
         saveToJson();
+        
     }
 
-    public void loginAccount(String email, String password) {
-        int index = Email.indexOf(email.toLowerCase());
+   
+
+
+    public void loginAccount(String email, String password,JPanel jpanel) {
+         index = Email.indexOf(email.toLowerCase());
         if (index != -1) {
             if (Password.get(index).equals(password)) {
-                showLoginSuccessDialog();
+            	
+            	
+            	if(!firstTimeLogin) {
+            		showLoginSuccessDialog();
+            		firstTimeLogin=true;
+            	}
+            	
+            	
+            	
+            	
+            	
+            	
+            	
+            	 try {
+            		 
+            	 JFrame tobeDestroyed= (JFrame) SwingUtilities.getWindowAncestor(jpanel); //gikuha nako ang panel sa main page/login page para e destroy diri
+            	  if(tobeDestroyed!=null) {
+                  	tobeDestroyed.dispose();
+                  }
+              	
+                 
+                 } catch (Exception ex) {
+                    
+                	 System.out.println("panel cant be found");
+                 }
+            	
+            	
+            	SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\nh:mm:ss a");
+            	
+            	String formattedDateTime = dateFormat.format(currentDate);
+            	
+            	
+            	if(!LastLogin.isEmpty() && LastLogin.get(index).length()>2) {
+            		
+            		lastLogin = LastLogin.get(index);
+            	}else {
+            		lastLogin = formattedDateTime;
+            		LastLogin.set(index, formattedDateTime);
+            		saveToJson();
+
+            	}
+            	
+                LabDashBoard labDashBoard = new LabDashBoard();
+                String userIDNumber = "ID Number: "+IDNumber.get(index);
+                String userInfo = "<html>"
+                		+ "Welcome, " + FirstName.get(index) + " " + LastName.get(index) + "<br>"+
+                		   userIDNumber+"<br><br>Account Date Created: <br>"+AccountDateCreated.get(index)+"<br><br>"+
+                		   "Date and Time: <br>"+"time time"+"<br><br>"+
+                		   "Last login: <br>"+lastLogin+"</html>";   
+                LastLogin.set(index, formattedDateTime);
+                
+        		saveToJson();
+        		
+        		
+                if(!UserHistory.isEmpty() && UserHistory.get(index).length()>2) {
+            		
+                	userActivity = UserHistory.get(index);
+            		
+            	}else {
+            		userActivity = "<html> <br><br><br>This account has no activity history.</html>";
+
+            	
+            	}
+                
+        		String userHistory = "<html>Account Activity History  /  Type<br>"+
+        		                        userActivity+"</html>";
+
+
+
+                
+        		
+        		labDashBoard.userHistory.setText(userHistory );
+                labDashBoard.userWelcome.setText(userInfo);
+                labDashBoard.getUserIndex(index);
+                
+                
+                   
+                
+                labDashBoard.StartDashBoard();  
+              
+            	
+                
+            	
+            	
+    
+                
             } else {
                 showPasswordIncorrectDialog();
             }
@@ -113,6 +232,7 @@ public class UserInformation {
 
     private void showPasswordDialog(String password) {
         JOptionPane.showMessageDialog(null, "Your Password is: " + password, "Password", JOptionPane.INFORMATION_MESSAGE);
+        
     }
 
     private void showAccountNotFoundtDialog() {
@@ -121,6 +241,9 @@ public class UserInformation {
     private void showPasswordIncorrectDialog() {
         JOptionPane.showMessageDialog(null, "Your Password is incorrect", "Error", JOptionPane.ERROR_MESSAGE);
     }
+    
+    
+
 
     private void saveToJson() {
         try (Writer writer = new FileWriter(JSON_FILE)) {
@@ -130,6 +253,7 @@ public class UserInformation {
             e.printStackTrace();
         }
     }
+    
     public void loadFromJson() {
         File file = new File(JSON_FILE);
         if (file.exists()) {
@@ -143,6 +267,8 @@ public class UserInformation {
                     LastName = data.LastName;
                     Birthdate = data.Birthdate;
                     FirstName = data.FirstName;
+                    AccountDateCreated = data.AccountDateCreated;
+                    LastLogin = data.LastLogin;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -152,7 +278,8 @@ public class UserInformation {
             System.err.println("JSON file does not exist: " + JSON_FILE);
         }
     }
+    
 
-
-
+ 
 }
+

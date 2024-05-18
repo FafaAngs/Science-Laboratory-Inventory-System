@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -36,6 +37,7 @@ public class RecoveryPage {
 	
 	public void StartRecovery() {
         JFrame frame = new JFrame("Science Laboratory Inventory System");
+     // frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1300, 800);
         frame.setLocationRelativeTo(null);
@@ -55,9 +57,10 @@ public class RecoveryPage {
         panel.setLayout(new BorderLayout());
 
         JLabel label = new JLabel("SCIENCE LABORATORY INVENTORY SYSTEM");
-        label.setForeground(Color.ORANGE);
-        label.setFont(new Font("Serif", Font.PLAIN, 36));
-        label.setBackground(Color.DARK_GRAY.brighter()); 
+        label.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 60)); // Add border
+        label.setForeground(Color.black.brighter());
+        label.setFont(new Font("Serif", Font.BOLD, 36));
+        label.setBackground(Color.orange.darker()); 
         label.setOpaque(true); 
 
         JPanel innerPanel = new JPanel();  
@@ -71,6 +74,7 @@ public class RecoveryPage {
 
         ImageIcon icon = new ImageIcon("CTU.png"); 
         JLabel imageLabel = new JLabel(icon);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0)); // Add border
         
 
         JPanel innerPanel3 = new JPanel(); 
@@ -82,7 +86,7 @@ public class RecoveryPage {
         gbc.anchor = GridBagConstraints.WEST;
       
         Font font = new Font("Serif", Font.BOLD, 24);
-        JLabel headerMainPage = new JLabel("<html><font color='#CCCCCC'>Cebu Technological University</font><br><font color='black'>Account Recovery</font><br></font></html>");
+        JLabel headerMainPage = new JLabel("<html><font color='#CCCCCC'>Account Recovery<br>Cebu Technological University</font><br></font></html>");
         headerMainPage.setFont(font);
 
 
@@ -103,7 +107,7 @@ public class RecoveryPage {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 50, 10, 10);
         
         JLabel itemNameLabel1 = new JLabel("Enter your ID Number");
         itemNameLabel1.setForeground(Color.WHITE);
@@ -114,7 +118,7 @@ public class RecoveryPage {
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 50, 10, 10);
 
         JLabel itemNameLabel2 = new JLabel("Enter your Last Name");
         itemNameLabel2.setForeground(Color.WHITE);
@@ -125,7 +129,7 @@ public class RecoveryPage {
         
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 50, 10, 10);
         
         JLabel itemNameLabel3 = new JLabel("Enter your Birthday");
         itemNameLabel3.setForeground(Color.WHITE);
@@ -179,17 +183,16 @@ public class RecoveryPage {
 
         
     
-     // GridBagConstraints for Sign In button
         GridBagConstraints gbcSignInButton = new GridBagConstraints();
         gbcSignInButton.gridx = 1;
         gbcSignInButton.gridy = 5;
         gbcSignInButton.gridwidth = 1;
-        gbcSignInButton.insets = new Insets(40, 90, 0, 20);
+        gbcSignInButton.insets = new Insets(40, 85, 0, 20);
 
         JButton signUpButton = new JButton("RESET PASSWORD");
         Color skyBlue = new Color(135, 206, 235);
         signUpButton.setBackground(skyBlue.darker());
-        signUpButton.setForeground(Color.WHITE); // Set text color to white
+        signUpButton.setForeground(Color.WHITE);
         innerPanel3.add(signUpButton, gbcSignInButton);
 
         signUpButton.addActionListener(new ActionListener() {
@@ -202,7 +205,6 @@ public class RecoveryPage {
         
 
   
-     // GridBagConstraints for Sign Up label
         GridBagConstraints gbcSignUpLabel = new GridBagConstraints();
         gbcSignUpLabel.gridx = 1;
         gbcSignUpLabel.gridy = 5;
@@ -240,6 +242,10 @@ public class RecoveryPage {
        });
 
         innerPanel3.add(signUpLinkLabel, gbcSignUpLinkLabel);
+        ImageIcon iconLogo = new ImageIcon("BagongMukha.png"); 
+        JLabel imageLabelLogo = new JLabel(iconLogo);
+        imageLabelLogo.setBorder(BorderFactory.createEmptyBorder(30, 0, 450, 60)); // Add border
+        innerPanel.add(imageLabelLogo,BorderLayout.EAST);
 
 
 
