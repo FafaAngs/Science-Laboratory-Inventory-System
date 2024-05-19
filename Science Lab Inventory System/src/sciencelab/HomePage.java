@@ -131,7 +131,7 @@ public class HomePage {
         signInButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                
-                System.out.println("Sign In button clicked");
+             
                 String inputtedEmail = textFieldEmail.getText();
                 String inputtedPassword = textFieldPassword.getText();
                 userInformation.loadFromJson();
@@ -156,7 +156,7 @@ public class HomePage {
         forgotPasswordLabel.addMouseListener(new MouseAdapter() {
         	 public void mouseClicked(MouseEvent e) {
                
-                    System.out.println("forgot password ");
+               
                     RecoveryPage recoveryPage = new RecoveryPage();
                     recoveryPage.StartRecovery();            
                     JFrame loginHomePage = (JFrame) SwingUtilities.getWindowAncestor(panel);
@@ -191,7 +191,7 @@ public class HomePage {
         signUpLinkLabel.addMouseListener(new MouseAdapter() {
        	 public void mouseClicked(MouseEvent e) {
               
-                   System.out.println("register ");
+            
                    CreationPage creationPage = new CreationPage();
                    creationPage.createAndShowGUI();
                    JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);

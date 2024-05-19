@@ -19,7 +19,7 @@ public class UserInformation {
 	
 	static Date currentDate = new Date();
 	public static HomePage homePage = new HomePage();
-	ScienceLabItems sciencelabitems = new ScienceLabItems();
+	static LabDashBoard labDashBoard = new LabDashBoard();
 	 
 	
 	public static boolean firstTimeLogin=false;
@@ -37,19 +37,19 @@ public class UserInformation {
 
     public List<String> Email = new ArrayList<>();
     public List<String> Password = new ArrayList<>();
-    private List<String> IDNumber = new ArrayList<>();
-    private List<String> LastName = new ArrayList<>();
-    private List<String> Birthdate = new ArrayList<>();
+    public List<String> IDNumber = new ArrayList<>();
+    public List<String> LastName = new ArrayList<>();
+    public List<String> Birthdate = new ArrayList<>();
     private List<String> FirstName = new ArrayList<>();
     private List<String> AccountDateCreated = new ArrayList<>();
     private List<String> LastLogin = new ArrayList<>();
-    private List<String> UserHistory = new ArrayList<>();
+    public List<String> UserHistory = new ArrayList<>();
     
 
   
 
 
-    public void createAccount(String emailAddress, String idNumber, String birthdate, String firstName, String lastName) {
+    public void createAccount(String emailAddress, String idNumber, String birthdate, String firstName, String lastName,JPanel panel) {
     	
     	
     	
@@ -99,11 +99,26 @@ public class UserInformation {
         showPasswordDialog(password + Email.indexOf(emailAddress));
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\nh:mm:ss a");
     	String formattedDateTime = dateFormat.format(currentDate);
-    	AccountDateCreated.add(formattedDateTime);
+    	AccountDateCreated.add(formattedDateTime);	
     	LastLogin.add("");
     	UserHistory.add("");
+    
 
         saveToJson();
+        
+        try {
+    		 
+        	 JFrame tobeDestroyed= (JFrame) SwingUtilities.getWindowAncestor(panel); //gikuha nako ang panel sa main page/login page para e destroy diri
+        	  if(tobeDestroyed!=null) {
+              	tobeDestroyed.dispose();
+              }
+          	
+             
+             } catch (Exception ex) {
+                
+            	// System.out.println("panel cant be found");
+             }
+        homePage.ShowGUI();
         
     }
 
@@ -137,7 +152,7 @@ public class UserInformation {
                  
                  } catch (Exception ex) {
                     
-                	 System.out.println("panel cant be found");
+                	// System.out.println("panel cant be found");
                  }
             	
             	
@@ -156,7 +171,7 @@ public class UserInformation {
 
             	}
             	
-                LabDashBoard labDashBoard = new LabDashBoard();
+                
                 String userIDNumber = "ID Number: "+IDNumber.get(index);
                 String userInfo = "<html>"
                 		+ "Welcome, " + FirstName.get(index) + " " + LastName.get(index) + "<br>"+
@@ -167,10 +182,9 @@ public class UserInformation {
                 
         		saveToJson();
         		
-        		
                 if(!UserHistory.isEmpty() && UserHistory.get(index).length()>2) {
             		
-                	userActivity = UserHistory.get(index);
+                	userActivity = UserHistory.get(index);        	
             		
             	}else {
             		userActivity = "<html> <br><br><br>This account has no activity history.</html>";
@@ -182,10 +196,9 @@ public class UserInformation {
         		                        userActivity+"</html>";
 
 
-
-                
         		
-        		labDashBoard.userHistory.setText(userHistory );
+        		
+        		labDashBoard.userHistory.setText(userHistory);
                 labDashBoard.userWelcome.setText(userInfo);
                 labDashBoard.getUserIndex(index);
                 
@@ -227,11 +240,11 @@ public class UserInformation {
     }
 
     private void showLoginSuccessDialog() {
-        JOptionPane.showMessageDialog(null, "Login success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "      Login success!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void showPasswordDialog(String password) {
-        JOptionPane.showMessageDialog(null, "Your Password is: " + password, "Password", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Your Password is: " + password, "Congratulations", JOptionPane.INFORMATION_MESSAGE);
         
     }
 
@@ -245,7 +258,7 @@ public class UserInformation {
     
 
 
-    private void saveToJson() {
+    public void saveToJson() {
         try (Writer writer = new FileWriter(JSON_FILE)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(this, writer);
@@ -253,7 +266,7 @@ public class UserInformation {
             e.printStackTrace();
         }
     }
-    
+
     public void loadFromJson() {
         File file = new File(JSON_FILE);
         if (file.exists()) {
@@ -269,6 +282,7 @@ public class UserInformation {
                     FirstName = data.FirstName;
                     AccountDateCreated = data.AccountDateCreated;
                     LastLogin = data.LastLogin;
+                    UserHistory = data.UserHistory;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -278,6 +292,7 @@ public class UserInformation {
             System.err.println("JSON file does not exist: " + JSON_FILE);
         }
     }
+
     
 
  

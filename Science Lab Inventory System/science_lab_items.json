@@ -1,14 +1,18 @@
 {
-  "erlenmeyer": 40,
-  "beaker": 40,
-  "microscope": 40,
-  "testtube": 40,
-  "thermometer": 40,
-  "weighingscale": 40,
-  "salt": 400,
-  "glucose": 400,
-  "calcium": 400,
-  "sulfur": 400,
-  "buffers": 400,
-  "solvent": 400
+  "materials": [
+    90,
+    70,
+    0,
+    0,
+    0,
+    240
+  ],
+  "equipments": [
+    40,
+    40,
+    26,
+    21,
+    0,
+    40
+  ]
 }

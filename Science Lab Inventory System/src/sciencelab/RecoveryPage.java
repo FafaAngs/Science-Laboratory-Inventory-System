@@ -18,22 +18,14 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import com.toedter.calendar.JCalendar;
 
 public class RecoveryPage {
 	
 	JPanel panel;
+	UserInformation userInformation = new UserInformation();
 	
 	public void StartRecovery() {
         JFrame frame = new JFrame("Science Laboratory Inventory System");
@@ -114,7 +106,9 @@ public class RecoveryPage {
         innerPanel3.add(itemNameLabel1, gbc);
 
         gbc.gridx = 1;
-        innerPanel3.add(new JTextField(16), gbc);//first input
+        JTextField textFieldIDNumber = new JTextField(16); 
+        innerPanel3.add(textFieldIDNumber, gbc);//first input
+        
 
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -122,10 +116,12 @@ public class RecoveryPage {
 
         JLabel itemNameLabel2 = new JLabel("Enter your Last Name");
         itemNameLabel2.setForeground(Color.WHITE);
+        JTextField textLastName = new JTextField(16); 
+        
         innerPanel3.add(itemNameLabel2, gbc);
 
         gbc.gridx = 1;
-        innerPanel3.add(new JTextField(16), gbc);//second input
+        innerPanel3.add(textLastName, gbc);//second input
         
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -133,28 +129,30 @@ public class RecoveryPage {
         
         JLabel itemNameLabel3 = new JLabel("Enter your Birthday");
         itemNameLabel3.setForeground(Color.WHITE);
+        JTextField textFieldBirthday = new JTextField(16); 
+        
         innerPanel3.add(itemNameLabel3, gbc);
-        JTextField textField = new JTextField(16);
+       
         gbc.gridx = 1;
-        innerPanel3.add(textField, gbc);//second input
+        innerPanel3.add(textFieldBirthday, gbc);//3rd input
         
     
         
-        textField.addMouseListener(new MouseAdapter() {
+        textFieldBirthday.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 JDialog calendarDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(panel), true);
                 
             
                 calendarDialog.setUndecorated(true);
-                calendarDialog.setLocationRelativeTo(textField);
+                calendarDialog.setLocationRelativeTo(textFieldBirthday);
 
                 JCalendar calendar = new JCalendar();
                 calendar.addPropertyChangeListener("calendar", evt -> {
                     if (evt.getPropertyName().equals("calendar")) {
                         Date selectedDate = calendar.getDate();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        textField.setText(sdf.format(selectedDate));
+                        textFieldBirthday.setText(sdf.format(selectedDate));
                     }
                 });
 
@@ -197,8 +195,35 @@ public class RecoveryPage {
 
         signUpButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-              
-                System.out.println("Sign In button clicked");
+            	
+            	
+            	userInformation.loadFromJson();
+            	
+            	
+            	
+            	String idNumberInput = textFieldIDNumber.getText();
+            	String textLastNameInput = textLastName.getText();
+                String textBirthdayInput = textFieldBirthday.getText();
+
+        
+            	int index = userInformation.IDNumber.indexOf(idNumberInput);
+            	System.out.println(index);
+            	System.out.println(idNumberInput);
+            	if (index != -1) {
+               
+                    if (userInformation.LastName.get(index).equals(textLastNameInput) && userInformation.Birthdate.get(index).equals(textBirthdayInput)) {
+                   
+                        JOptionPane.showMessageDialog(null,"User found with ID: " + idNumberInput+"\nYour Password is : "+userInformation.Password.get(index), "User Found", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        
+                        JOptionPane.showMessageDialog(null, "Last name or birthdate does not match for ID: " + idNumberInput, "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                 
+                    JOptionPane.showMessageDialog(null,"User with ID " + idNumberInput + " not found.", "User Not Found", JOptionPane.WARNING_MESSAGE);
+                }
+
+             
             }
         });
 
@@ -233,7 +258,7 @@ public class RecoveryPage {
                    homePage.ShowGUI();
                
                    JFrame CreationPageFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
-                   CreationPageFrame.dispose(); // Close the current frame
+                   CreationPageFrame.dispose();
                
                    
        		 

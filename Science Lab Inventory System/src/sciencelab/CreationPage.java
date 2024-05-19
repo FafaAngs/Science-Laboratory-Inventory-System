@@ -9,6 +9,7 @@ import java.util.Date;
 
 public class CreationPage {
 	UserInformation userInformation = new UserInformation(); 
+
 	JPanel panel;
 	
 	
@@ -211,14 +212,17 @@ public class CreationPage {
         signUpButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	
-                System.out.println("Sign up button clicked");
+             
                 String inputtedEmail = textFieldEmail.getText();
                 String inputtedIDNumber =textFieldIDNumber.getText(); 
                 String inputtedBirthday = textField.getText(); 
                 String inputtedFirstName = textFieldFirstName.getText(); 
                 String inputtedLastName = textFieldLastName.getText(); 
                 userInformation.loadFromJson(); // read *******************
-               userInformation.createAccount(inputtedEmail, inputtedIDNumber, inputtedBirthday, inputtedFirstName, inputtedLastName);
+               userInformation.createAccount(inputtedEmail, inputtedIDNumber, inputtedBirthday, inputtedFirstName, inputtedLastName,panel);
+               
+             
+                
                
             }
         });
@@ -250,7 +254,7 @@ public class CreationPage {
         signUpLinkLabel.addMouseListener(new MouseAdapter() {
        	 public void mouseClicked(MouseEvent e) {
               
-                   System.out.println("Back to Sign in");
+              
                    HomePage homePage = new HomePage();
                    homePage.ShowGUI();
                

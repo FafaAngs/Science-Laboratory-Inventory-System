@@ -12,11 +12,19 @@ import javax.swing.*;
 
 
 public class InventoryPage {
+	 String userActivity="";
+	 String[] measurements = {"g", "mL", "mL", "g", "g", "g"};
+	 String[] materialNames = {"Salt", "Glucose", "Calcium", "Sulfur", "Buffers", "Solvent"};
+	 String[] equipmentNames = {"Erlenmeyer Flask", "Beaker", "Microscope", "Test Tube", "Thermometer", "Weighing Scale"};
+	
 	
 	public static int userIndex;
 	static LabDashBoard labDashBoard = new LabDashBoard();
 	ScienceLabItems scienceLabItems = new ScienceLabItems();
 	UserInformation userInformation = new UserInformation();
+	
+	int[] originalValueMaterials = new int[scienceLabItems.materials.length];
+	int[]  originalValueEquipments = new int[scienceLabItems.equipments.length];
 
     public void StartInventoryPage() {
         JFrame frame = new JFrame("Science Laboratory Inventory System");
@@ -45,18 +53,74 @@ public class InventoryPage {
          @Override
          public void actionPerformed(ActionEvent e) {
              
-        	 JOptionPane.showMessageDialog(null, "You have successfully acquired the items", " ", JOptionPane.INFORMATION_MESSAGE);
-        	JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
-             topFrame.dispose(); 
-             labDashBoard.getUserIndex(userIndex);
-             userInformation.loadFromJson();
-             
-            String user = userInformation.Email.get(userIndex);
-             
-            String userPass = userInformation.Password.get(userIndex);
-               userInformation.loginAccount(user, userPass, null);
+        	 
+        	  boolean itemsTaken = false;
+        	userInformation.loadFromJson();
           
              
+               
+               for (int i = 0; i < scienceLabItems.materials.length; i++) {
+                   int materialTaken = originalValueMaterials[i] - scienceLabItems.materials[i];
+                   if (materialTaken > 0) {
+                	   itemsTaken = true;
+                	   if (!userInformation.UserHistory.isEmpty() && userInformation.UserHistory.get(userIndex).length() > 2) {
+                		  
+                		    String oldHistory = userInformation.UserHistory.get(userIndex);
+                		    String newActivity = "<br>" + materialNames[i] + ": " + materialTaken + measurements[i]+" taken";
+                		    userInformation.UserHistory.set(userIndex, oldHistory + newActivity);  
+       
+                		} else {
+          	  
+                		    String newActivity = "<br>" + materialNames[i] + ": " + materialTaken+ measurements[i]+" taken";
+                            userInformation.UserHistory.set(userIndex, newActivity);  
+                		}
+  
+                	   userInformation.saveToJson();
+                     
+                                          
+                   }
+                   
+                              
+                  
+                   
+               }
+               
+               
+               //  equipments
+               for (int i = 0; i < scienceLabItems.equipments.length; i++) {
+                   int equipmentTaken = originalValueEquipments[i] - scienceLabItems.equipments[i];
+                   if (equipmentTaken > 0) {
+                       itemsTaken = true;
+                       if (!userInformation.UserHistory.isEmpty() && userInformation.UserHistory.get(userIndex).length() > 2) {
+                           String oldHistory = userInformation.UserHistory.get(userIndex);
+                           String newActivity = "<br>" + equipmentNames[i] + ": " + equipmentTaken + " taken";
+                           userInformation.UserHistory.set(userIndex, oldHistory + newActivity);
+                       } else {
+                           String newActivity = "<br>" + equipmentNames[i] + ": " + equipmentTaken + " taken";
+                           userInformation.UserHistory.set(userIndex, newActivity);
+                       }
+                       userInformation.saveToJson();
+                      
+                   }
+               }
+               
+               
+               if (!itemsTaken) {
+                   JOptionPane.showMessageDialog(null, "        No items to get.", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+                   return;
+               }
+               scienceLabItems.saveToJson(); 
+               
+               JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+               labDashBoard.getUserIndex(userIndex);
+               JOptionPane.showMessageDialog(null, "You have successfully acquired the items", " ", JOptionPane.INFORMATION_MESSAGE);
+               
+               
+               
+               String user = userInformation.Email.get(userIndex);  
+               String userPass = userInformation.Password.get(userIndex);
+                  userInformation.loginAccount(user, userPass, null);
+               topFrame.dispose(); 
 
          }
      });
@@ -210,6 +274,10 @@ public class InventoryPage {
         JPanel leftPanel = new JPanel(new GridLayout(6, 1));
         leftPanel.setBorder(BorderFactory.createEmptyBorder(80, 0, 0, 0)); 
         leftPanel.setBackground(Color.gray);
+        
+       
+        scienceLabItems.loadFromJson();
+        
         for (int i = 0; i < 6; i++) {
         	SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 40, 1);
             JSpinner spinner = new JSpinner(spinnerModel);
@@ -222,18 +290,33 @@ public class InventoryPage {
           int index = i;
           
           
-          int originalValueEquipments = scienceLabItems.equipments[index];
+           originalValueEquipments[index] = scienceLabItems.equipments[index];
+           
           
           
           
          
-          //change sa vvalue using spinner//equipments
+        
  
-          spinnerModel.addChangeListener(e -> {
-              int newValue = (int) spinner.getValue(); 
-               scienceLabItems.equipments[index] = originalValueEquipments - newValue;
-              spinnerLabel.setText("Stock Left: " + scienceLabItems.equipments[index] );
-          });
+           spinnerModel.addChangeListener(e -> {
+        	    int newValue = (int) spinner.getValue();
+        	    int updatedEquipmentCount = originalValueEquipments[index] - newValue;
+
+        	    
+        	    if (updatedEquipmentCount < 0) {
+        	        scienceLabItems.equipments[index] = 0;
+        	        spinner.setValue(originalValueEquipments[index]); // Reset spinner to original value to prevent negative count
+        	        JOptionPane.showMessageDialog(null, "Cannot deduct more items. Stock is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
+        	        return;
+        	    }
+
+        	
+        	    scienceLabItems.equipments[index] = updatedEquipmentCount;
+
+        	  
+        	    spinnerLabel.setText("Stock Left: " + scienceLabItems.equipments[index]);
+        	});
+
           
           
      
@@ -248,22 +331,22 @@ public class InventoryPage {
                   try {
                       if (inputText.isEmpty()) {
                       
-                          scienceLabItems.equipments[index] = originalValueEquipments ;
+                          scienceLabItems.equipments[index] = originalValueEquipments[index] ;
                       } else {
                           int inputInt = Integer.parseInt(inputText);
                 
-                          if (inputInt >originalValueEquipments ) {
+                          if (inputInt >originalValueEquipments[index] ) {
                             
-                              inputInt = originalValueEquipments ;
+                              inputInt = originalValueEquipments[index] ;
                               
                              
                               ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setText(String.valueOf(inputInt));
                           }
                         
-                          scienceLabItems.equipments[index] = originalValueEquipments  - inputInt;
+                          scienceLabItems.equipments[index] = originalValueEquipments[index]  - inputInt;
                       }
                       spinnerLabel.setText("Stock Left: " + scienceLabItems.equipments[index]);
-                      System.out.println(scienceLabItems.equipments[index]);
+                     
                   } catch (NumberFormatException ex) {
                       
                   }
@@ -301,7 +384,8 @@ public class InventoryPage {
         rightPanel.setBorder(BorderFactory.createEmptyBorder(80, 0, 0, 0)); 
         rightPanel.setBackground(Color.gray);
         
-        String[] measurements = {"g", "mL", "mL", "g", "g", "g"};
+        
+        
         for (int i = 0; i < 6; i++) {
         	SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 400, 10);
             JSpinner spinner = new JSpinner(spinnerModel);
@@ -312,19 +396,38 @@ public class InventoryPage {
             
             int index = i;
             
-        
-            int originalValueMaterials = scienceLabItems.materials[index];
+            
+
+           originalValueMaterials[index] = scienceLabItems.materials[index];
             
             
             
            
             
    
-            spinnerModel.addChangeListener(e -> {
-                int newValue = (int) spinner.getValue(); 
-                 scienceLabItems.materials[index] = originalValueMaterials - newValue;
-                spinnerLabel.setText("Stock Left: " + scienceLabItems.materials[index] + measurements[index]);
-            });
+           spinnerModel.addChangeListener(e -> {
+        	    int newValue = (int) spinner.getValue();
+        	
+        	   
+        	   
+        	  
+        	    int updatedMaterialCount = originalValueMaterials[index] - newValue;
+        	    
+        	
+        	    if (updatedMaterialCount < 0) {
+        	        scienceLabItems.materials[index] = 0;
+        	        spinner.setValue(originalValueMaterials[index]); 
+        	        JOptionPane.showMessageDialog(null, "Cannot deduct more items. Stock is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
+        	        return;
+        	    }
+        	    
+        	  
+        	    scienceLabItems.materials[index] = updatedMaterialCount;
+        	    
+        	    
+        	    spinnerLabel.setText("Stock Left: " + scienceLabItems.materials[index] + measurements[index]);
+        	});
+
             
             
        
@@ -339,22 +442,22 @@ public class InventoryPage {
                     try {
                         if (inputText.isEmpty()) {
                         
-                            scienceLabItems.materials[index] = originalValueMaterials;
+                            scienceLabItems.materials[index] = originalValueMaterials[index];
                         } else {
                             int inputInt = Integer.parseInt(inputText);
                   
-                            if (inputInt > originalValueMaterials) {
+                            if (inputInt > originalValueMaterials[index]) {
                               
-                                inputInt = originalValueMaterials;
+                                inputInt = originalValueMaterials[index];
                                 
                                
                                 ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setText(String.valueOf(inputInt));
                             }
                           
-                            scienceLabItems.materials[index] = originalValueMaterials - inputInt;
+                            scienceLabItems.materials[index] = originalValueMaterials[index] - inputInt;
                         }
                         spinnerLabel.setText("Stock Left: " + scienceLabItems.materials[index] + measurements[index]);
-                        System.out.println(scienceLabItems.materials[index]);
+                  
                     } catch (NumberFormatException ex) {
                         
                     }
@@ -389,16 +492,14 @@ public class InventoryPage {
             
         }
         innerPanel.add(rightPanel);
-        
-        
-         frame.add(panel);
+        frame.add(panel);
         frame.setVisible(true);
         frame.setResizable(false); 
    }
     
     public void getUserIndex(int index) {
 		this.userIndex=index;
-		System.out.println(userIndex);
+		
 	}
 }
 

@@ -59,7 +59,7 @@ public class LabDashBoard {
 	        
 	        
 
-	        
+	       
 	        
 	        JButton proceed = new JButton("Proceed To Laboratory");
 	        Font buttonFont = new Font("Roboto", Font.BOLD, 18);
@@ -69,11 +69,13 @@ public class LabDashBoard {
 	            
 	            public void actionPerformed(ActionEvent e) {
 	         
-	                System.out.println("Button clicked: Proceed To Laboratory");
+	                
 	                JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
-	                   topFrame.dispose(); // Close the current frame
+	                   
+	                
 	                   inventoryPage.StartInventoryPage();
 	                   inventoryPage.getUserIndex(userIndex);
+	                   topFrame.dispose();
 	            }
 	        });
 	        
@@ -124,7 +126,7 @@ public class LabDashBoard {
 	
 	public void getUserIndex(int index ) {
 		this.userIndex=index;
-		System.out.println(userIndex);
+		
 	}
 	
 

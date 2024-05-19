@@ -12,7 +12,7 @@ public class ScienceLabItems {
 	 private static final String JSON_FILE = "science_lab_items.json";
 
 	
-	 public int[] materials = {
+	 public  int[] materials = {
 		        400, // Salt
 		        400, // Glucose
 		        400, // Calcium
@@ -22,7 +22,7 @@ public class ScienceLabItems {
 		        };
 	 
 
-	 public int[] equipments = {
+	 public  int[] equipments = {
 		        40, // Erlenmeyer Flask
 		        40, // Beaker
 		        40, // Microscope
@@ -31,20 +31,23 @@ public class ScienceLabItems {
 		        40  // Weighing Scale
 		    };
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	 
     public void saveToJson() {
         try (Writer writer = new FileWriter(JSON_FILE)) {
@@ -56,14 +59,24 @@ public class ScienceLabItems {
     }
 
  
-    public static ScienceLabItems loadFromJson() {
-        try (Reader reader = new FileReader(JSON_FILE)) {
-            Gson gson = new Gson();
-            return gson.fromJson(reader, ScienceLabItems.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+    public void loadFromJson() {
+        File file = new File(JSON_FILE);
+        if (file.exists()) {
+            try (Reader reader = new FileReader(JSON_FILE)) {
+                Gson gson = new Gson();
+                ScienceLabItems data = gson.fromJson(reader, ScienceLabItems.class);
+                // Update the current instance with the loaded items
+                this.materials = data.materials;
+                this.equipments = data.equipments;
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("Error reading JSON file: " + e.getMessage());
+            }
+        } else {
+            System.err.println("JSON file does not exist: " + JSON_FILE);
         }
     }
+
+
 	
 }
