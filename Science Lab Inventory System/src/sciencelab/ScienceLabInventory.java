@@ -15,9 +15,9 @@ public class ScienceLabInventory {
     	
     	//recoveryPage.StartRecovery();
      homePage.ShowGUI();
-   // inventoryPage.StartInventoryPage();
+//inventoryPage.StartInventoryPage();
     	//scienceLabItems.saveToJson();
-    	//labDashBoard.StartDashBoard();
+   //labDashBoard.StartDashBoard();
     	
     }
 }

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 
 
 
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class UserInformation {
 	 
 	
 	public static boolean firstTimeLogin=false;
+
 	
     private static final String JSON_FILE = "user_information.json"; 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$");
@@ -30,9 +32,9 @@ public class UserInformation {
     
   
 
-    String lastLogin;
+    static String lastLogin;
     String userActivity;
-    int index;
+    private int index;
     private String password = "CTULibrary";
 
     public List<String> Email = new ArrayList<>();
@@ -93,8 +95,8 @@ public class UserInformation {
         Email.add(emailAddress.toLowerCase());
         IDNumber.add(idNumber);
         Birthdate.add(birthdate);
-        FirstName.add(firstName);
-        LastName.add(lastName);
+        FirstName.add(firstName.toLowerCase());
+        LastName.add(lastName.toLowerCase());
         Password.add(password + Email.indexOf(emailAddress));
         showPasswordDialog(password + Email.indexOf(emailAddress));
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\nh:mm:ss a");
@@ -130,18 +132,28 @@ public class UserInformation {
         if (index != -1) {
             if (Password.get(index).equals(password)) {
             	
+            	SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\nh:mm:ss a");
+            	
+            	String formattedDateTime = dateFormat.format(currentDate);
             	
             	if(!firstTimeLogin) {
             		showLoginSuccessDialog();
-            		firstTimeLogin=true;
-            	}
-            	
-            	
-            	
-            	
-            	
-            	
-            	
+            		firstTimeLogin=true;         
+                	if(!LastLogin.isEmpty() && LastLogin.get(index).length()>2) {
+                		
+                		lastLogin = LastLogin.get(index);
+                		LastLogin.set(index, formattedDateTime);
+                	
+                	   
+                	}else {
+                		lastLogin = formattedDateTime;
+                		LastLogin.set(index, formattedDateTime);
+                		saveToJson();
+
+                	}
+            		
+            		
+            	}           
             	 try {
             		 
             	 JFrame tobeDestroyed= (JFrame) SwingUtilities.getWindowAncestor(jpanel); //gikuha nako ang panel sa main page/login page para e destroy diri
@@ -156,31 +168,30 @@ public class UserInformation {
                  }
             	
             	
-            	SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\nh:mm:ss a");
-            	
-            	String formattedDateTime = dateFormat.format(currentDate);
             	
             	
-            	if(!LastLogin.isEmpty() && LastLogin.get(index).length()>2) {
-            		
-            		lastLogin = LastLogin.get(index);
-            	}else {
-            		lastLogin = formattedDateTime;
-            		LastLogin.set(index, formattedDateTime);
-            		saveToJson();
+                
+            	 String userIDNumber = "<span style='color:#00FF00;'>" + IDNumber.get(index) + "</span>";
+           	 String userInfo = "<html>"
+            	         + "<span style='color:#87CEEB;'>Welcome, </span><span style='color:#00FF00;'>" + FirstName.get(index).toUpperCase() + " " + LastName.get(index).toUpperCase() + "</span><br>"
+            	             + "<span style='color:#87CEEB;'>ID Number: </span>" + userIDNumber + "<br><br>"
+            	      + "<span style='color:#87CEEB;'>Account Date Created:<br> </span><span style='color:#00FF00;'>" + AccountDateCreated.get(index) + "</span><br><br>"
+            	      + "<span style='color:#87CEEB;'>Last login:<br> </span><span style='color:#00FF00;'>" + lastLogin + "</span></html>";
 
-            	}
-            	
+            
+
+
+
                 
-                String userIDNumber = "ID Number: "+IDNumber.get(index);
-                String userInfo = "<html>"
-                		+ "Welcome, " + FirstName.get(index) + " " + LastName.get(index) + "<br>"+
-                		   userIDNumber+"<br><br>Account Date Created: <br>"+AccountDateCreated.get(index)+"<br><br>"+
-                		   "Date and Time: <br>"+"time time"+"<br><br>"+
-                		   "Last login: <br>"+lastLogin+"</html>";   
-                LastLogin.set(index, formattedDateTime);
                 
-        		saveToJson();
+           
+               
+                	
+            		saveToJson();
+            		
+            		
+             
+                
         		
                 if(!UserHistory.isEmpty() && UserHistory.get(index).length()>2) {
             		
@@ -192,8 +203,10 @@ public class UserInformation {
             	
             	}
                 
-        		String userHistory = "<html>Account Activity History  /  Type<br>"+
-        		                        userActivity+"</html>";
+                String userHistory = "<html><span style='color:#87CEEB;'>Account Activity History  /  Type<br></span>" +
+                      "<span style='color:#00FF00;'>" + userActivity + "</span></html>";
+
+
 
 
         		
@@ -221,6 +234,8 @@ public class UserInformation {
         	showAccountNotFoundtDialog();
         }
     }
+    
+ 
 
 
     private boolean isValidEmail(String email) {

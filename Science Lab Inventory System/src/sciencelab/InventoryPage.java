@@ -29,7 +29,7 @@ public class InventoryPage {
     public void StartInventoryPage() {
         JFrame frame = new JFrame("Science Laboratory Inventory System");
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(0, 102, 102));
+      
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1300, 800);
@@ -47,6 +47,7 @@ public class InventoryPage {
 
      // Create the button
         JButton button = new JButton("GET ITEMS");
+        JButton backbutton = new JButton("BACK");
 
      // Add ActionListener to the button
      button.addActionListener(new ActionListener() {
@@ -131,11 +132,45 @@ public class InventoryPage {
 
         // Set the font size of the button
         button.setFont(new Font("Roboto", Font.BOLD, 15));
+        
+        
+        
+        
+        
+        backbutton.setPreferredSize(new Dimension(150, 20));
+        backbutton.setFont(new Font("Roboto", Font.BOLD, 15));
+        
+        
+        
+        
+        backbutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                userInformation.loadFromJson();
+                String user = userInformation.Email.get(userIndex);  
+                String userPass = userInformation.Password.get(userIndex);
+                   userInformation.loginAccount(user, userPass, null);
+                topFrame.dispose();
+            }
+        });
+        
+        
+        
+        
 
         // Create a JPanel to hold the button
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(Color.gray);
+        buttonPanel.setBackground(Color.orange.darker());
+        
+        
+        
+        
+        
+        
         buttonPanel.add(button);
+        buttonPanel.add(backbutton);
+        
 
         // Add the button panel to the main panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
@@ -159,16 +194,19 @@ public class InventoryPage {
         rightContainer.setPreferredSize(new Dimension(300, 200)); 
         panel.add(rightContainer, BorderLayout.EAST);
 
-        Font serifFont = new Font("Serif", Font.PLAIN, 16);
+        Font serifFont = new Font("Serif", Font.BOLD, 13);
+        
     
         for (int i = 1; i <= 6; i++) {
         	 ImageIcon icon = new ImageIcon();
      
         	 JLabel leftNameLabel = new JLabel();
+        	 
         	
         	if(i==1) {
         		icon = new ImageIcon("flashGlass.png");
         		leftNameLabel = new JLabel("Erlenmeyer Flask");
+        		
         		
               	
               }
@@ -182,7 +220,7 @@ public class InventoryPage {
                }
                if(i==4) {
             	   icon = new ImageIcon("testTube.png");
-            	   leftNameLabel = new JLabel("testTube          ");
+            	   leftNameLabel = new JLabel("TestTube          ");
                }
                if(i==5) {
             	   icon = new ImageIcon("thermometers.png");
@@ -194,13 +232,16 @@ public class InventoryPage {
                }
                leftNameLabel.setFont(serifFont);
            
-            Image img = icon.getImage();
-            BufferedImage resizedImg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB); 
-            Graphics2D g2d = resizedImg.createGraphics();
-            g2d.setColor(Color.gray);
-            g2d.fillRect(0, 0, resizedImg.getWidth(), resizedImg.getHeight()); 
-            g2d.drawImage(img, 0, 0, 100, 100, null);
-            g2d.dispose();
+               Image img = icon.getImage();
+               BufferedImage resizedImg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB); 
+               Graphics2D g2d = resizedImg.createGraphics();
+               g2d.setColor(Color.gray); 
+               g2d.fillRect(0, 0, resizedImg.getWidth(), resizedImg.getHeight()); 
+               g2d.drawImage(img, 0, 0, 100, 100, null);
+               g2d.dispose();
+            
+               
+               
             ImageIcon resizedIcon = new ImageIcon(resizedImg);
             JLabel leftImageLabel = new JLabel(resizedIcon);
             leftNameLabel.setBackground(Color.gray);
@@ -302,20 +343,23 @@ public class InventoryPage {
         	    int newValue = (int) spinner.getValue();
         	    int updatedEquipmentCount = originalValueEquipments[index] - newValue;
 
-        	    
         	    if (updatedEquipmentCount < 0) {
         	        scienceLabItems.equipments[index] = 0;
+        	        spinnerLabel.setText("<html>Stock Left: <span style='color:#FF0000;'>" + scienceLabItems.equipments[index] + "</span></html>");
         	        spinner.setValue(originalValueEquipments[index]); // Reset spinner to original value to prevent negative count
         	        JOptionPane.showMessageDialog(null, "Cannot deduct more items. Stock is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
         	        return;
         	    }
 
-        	
         	    scienceLabItems.equipments[index] = updatedEquipmentCount;
-
-        	  
-        	    spinnerLabel.setText("Stock Left: " + scienceLabItems.equipments[index]);
+        	    if (updatedEquipmentCount == 0) {
+        	        spinnerLabel.setText("<html>Stock Left: <span style='color:#FF0000;'>" + updatedEquipmentCount + "</span></html>");
+        	    } else {
+        	        spinnerLabel.setText("Stock Left: " + updatedEquipmentCount);
+        	    }
         	});
+
+
 
           
           
@@ -407,26 +451,24 @@ public class InventoryPage {
    
            spinnerModel.addChangeListener(e -> {
         	    int newValue = (int) spinner.getValue();
-        	
-        	   
-        	   
-        	  
         	    int updatedMaterialCount = originalValueMaterials[index] - newValue;
-        	    
-        	
+
         	    if (updatedMaterialCount < 0) {
         	        scienceLabItems.materials[index] = 0;
+        	        spinnerLabel.setText("<html>Stock Left: <span style='color:#FF0000;'>" + scienceLabItems.materials[index] + measurements[index] + "</span></html>");
         	        spinner.setValue(originalValueMaterials[index]); 
         	        JOptionPane.showMessageDialog(null, "Cannot deduct more items. Stock is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
         	        return;
         	    }
-        	    
-        	  
+
         	    scienceLabItems.materials[index] = updatedMaterialCount;
-        	    
-        	    
-        	    spinnerLabel.setText("Stock Left: " + scienceLabItems.materials[index] + measurements[index]);
+        	    if (updatedMaterialCount == 0) {
+        	        spinnerLabel.setText("<html>Stock Left: <span style='color:#FF0000;'>" + updatedMaterialCount + measurements[index] + "</span></html>");
+        	    } else {
+        	        spinnerLabel.setText("Stock Left: " + updatedMaterialCount + measurements[index]);
+        	    }
         	});
+
 
             
             
@@ -502,4 +544,3 @@ public class InventoryPage {
 		
 	}
 }
-

@@ -3,91 +3,37 @@
   "password": "CTULibrary",
   "Email": [
     "angilbertzkie@gmail.com",
-    "asdasd@gmail.com",
-    "clark@gmail.com",
-    "asdas@gmail.com",
-    "qwdqwd@gmail.com",
-    "dasdasdasada@gmail.com",
-    "dasdas1@gmail.com",
-    "asd@gmail.com"
+    "clark@gmail.com"
   ],
   "Password": [
     "CTULibrary0",
-    "CTULibrary1",
-    "CTULibrary2",
-    "CTULibrary3",
-    "CTULibrary4",
-    "CTULibrary5",
-    "CTULibrary6",
-    "CTULibrary7"
+    "CTULibrary1"
   ],
   "IDNumber": [
-    "1231231",
-    "141231",
-    "1232131",
-    "123113",
-    "13132131",
-    "123123",
-    "13123",
-    "11"
+    "12112312",
+    "1231231"
   ],
   "LastName": [
-    "aNGCON",
-    "asdasd",
-    "DASDA",
-    "sada",
-    "hgjghj",
-    "dgfdfg",
-    "fsdf",
-    "aa"
+    "angcon",
+    "asdas"
   ],
   "Birthdate": [
-    "2024-05-24",
-    "2024-05-08",
-    "2024-05-06",
-    "2024-05-16",
-    "2024-05-22",
-    "2024-05-22",
-    "2024-05-16",
-    "2024-05-19"
+    "2024-05-07",
+    "2024-05-09"
   ],
   "FirstName": [
-    "ANGILBERT",
-    "asdasd",
-    "SADAS",
-    "dasdas",
-    "fsdfs",
-    "gdfgdf",
-    "fdssdfsd",
-    "aa"
+    "angilbert",
+    "asdasd"
   ],
   "AccountDateCreated": [
-    "Sunday, May 19, 2024\n10:28:11 PM",
-    "Sunday, May 19, 2024\n10:36:20 PM",
-    "Sunday, May 19, 2024\n11:28:50 PM",
-    "Sunday, May 19, 2024\n11:36:36 PM",
-    "Sunday, May 19, 2024\n11:38:48 PM",
-    "Sunday, May 19, 2024\n11:42:13 PM",
-    "Sunday, May 19, 2024\n11:43:29 PM",
-    "Monday, May 20, 2024\n12:31:26 AM"
+    "Monday, May 20, 2024\n6:09:38 PM",
+    "Monday, May 20, 2024\n10:35:42 PM"
   ],
   "LastLogin": [
-    "Sunday, May 19, 2024\n11:25:05 PM",
-    "",
-    "Sunday, May 19, 2024\n11:28:50 PM",
-    "",
-    "",
-    "",
-    "",
-    ""
+    "Monday, May 20, 2024\n11:22:58 PM",
+    "Monday, May 20, 2024\n10:35:42 PM"
   ],
   "UserHistory": [
-    "\u003cbr\u003eGlucose: 40mL taken\u003cbr\u003eCalcium: 30mL taken\u003cbr\u003eBuffers: 111g taken\u003cbr\u003eSulfur: 10g taken\u003cbr\u003eSolvent: 10g taken\u003cbr\u003eCalcium: 20mL taken\u003cbr\u003eSolvent: 40g taken\u003cbr\u003eCalcium: 150mL taken\u003cbr\u003eSulfur: 310g taken\u003cbr\u003eBuffers: 79g taken\u003cbr\u003eThermometer: 40 taken\u003cbr\u003eTest Tube: 1 taken\u003cbr\u003eMicroscope: 4 taken\u003cbr\u003eMicroscope: 8 taken\u003cbr\u003eMicroscope: 1 taken\u003cbr\u003eMicroscope: 1 taken",
-    "",
-    "\u003cbr\u003eTest Tube: 18 taken",
-    "",
-    "",
-    "",
     "",
     ""
   ]

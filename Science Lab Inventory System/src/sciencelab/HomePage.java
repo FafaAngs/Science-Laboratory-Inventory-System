@@ -208,16 +208,102 @@ public class HomePage {
 		
                
        });
+        
+    
+        JButton aboutUsButton = new JButton("About Us");
+        aboutUsButton.setPreferredSize(new Dimension(100, 40));
+        
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));      
+        buttonPanel.add(aboutUsButton);
+        
+        buttonPanel.setBackground(new Color(64, 64, 64, 0)); 
+
+
+        aboutUsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+         
+            	JPanel panel = new JPanel(new BorderLayout());
+                 panel.setBackground(Color.BLACK.darker()); 
+                 panel.setOpaque(true);
+            	
+            	JPanel imagePanel = new JPanel(new GridLayout(1, 2)); 
+            	
+            	ImageIcon icon2 = new ImageIcon("angs.png");
+            	Image image2 = icon2.getImage();
+         
+            	int width = 200; 
+            	int height = 200; 
+            	Image resizedImage2 = image2.getScaledInstance(250, height, Image.SCALE_SMOOTH);
+            	ImageIcon resizedIcon2 = new ImageIcon(resizedImage2);
+            	JLabel imageLabel2 = new JLabel(resizedIcon2);
+            	imagePanel.add(imageLabel2); 
+            	panel.add(imagePanel, BorderLayout.CENTER); 
+            	imagePanel.setBackground(new Color(64, 64, 64, 123)); 
+            	
+            	ImageIcon icon = new ImageIcon("clark.jpg");
+            	Image image = icon.getImage();
+         
+            	 
+            	Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            	ImageIcon resizedIcon = new ImageIcon(resizedImage);
+            	JLabel imageLabel = new JLabel(resizedIcon);
+            	imagePanel.add(imageLabel); 
+            	panel.add(imagePanel, BorderLayout.CENTER); 
+            	imagePanel.setBackground(new Color(64, 64, 64, 123)); 
+
+            	
+            	JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
+            	textPanel.add(new JLabel("<html><b><font color='#FFFFFF'>ANGILBERT ANGCON</font></b><br><center><font color='#00FF00'>PROGRAMMER</font></center></html>"));
+            	textPanel.add(new JLabel("                                                  "));
+            	textPanel.add(new JLabel("<html><b><font color='#FFFFFF'>KENT IBALE</font></b><br><center><font color='#00FF00'>DESIGNER</font></center></html>"));
+
+            	
+            	panel.add(textPanel, BorderLayout.SOUTH); 
+            	textPanel.setBackground(new Color(64, 64, 64, 123));
+
+       
+            	JOptionPane.showMessageDialog(
+            	    frame,
+            	    panel,
+            	    "About Us",
+            	    JOptionPane.PLAIN_MESSAGE
+            	);
+
+
+
+
+                    
+
+            
+
+            }
+        });
+
+    
+    
+        
+        JPanel panelForDesign = new JPanel(new BorderLayout());
+        panelForDesign.setBackground(new Color(64, 64, 64, 0)); 
+        panelForDesign.setOpaque(true);
+        panelForDesign.setPreferredSize(new Dimension(700, 0));
+        
 
         innerPanel3.add(signUpLinkLabel, gbcSignUpLinkLabel);
         
         ImageIcon iconLogo = new ImageIcon("BagongMukha.png"); 
         JLabel imageLabelLogo = new JLabel(iconLogo);
-        imageLabelLogo.setBorder(BorderFactory.createEmptyBorder(30, 0, 450, 60)); // Add border
-        innerPanel.add(imageLabelLogo,BorderLayout.EAST);
-
-      
+        imageLabelLogo.setBorder(BorderFactory.createEmptyBorder(-30, 0, 450, 60)); 
         
+        
+        
+      panelForDesign.add( buttonPanel,BorderLayout.SOUTH);
+      
+      
+        panelForDesign.add(imageLabelLogo,BorderLayout.NORTH);
+        innerPanel.add(panelForDesign,BorderLayout.EAST);
+
+
 
         innerPanel2.add(innerPanel3,BorderLayout.SOUTH);
         innerPanel2.add(imageLabel,BorderLayout.NORTH);

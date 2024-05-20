@@ -266,12 +266,21 @@ public class CreationPage {
        	 }
                
        });
+        
+        
+        JPanel panelForDesign = new JPanel(new BorderLayout());
+        panelForDesign.setBackground(new Color(64, 64, 64, 0)); // transparent
+        panelForDesign.setOpaque(true);
+        panelForDesign.setPreferredSize(new Dimension(700, 0));
+        
+        
 
         innerPanel3.add(signUpLinkLabel, gbcSignUpLinkLabel);
         ImageIcon iconLogo = new ImageIcon("BagongMukha.png"); 
         JLabel imageLabelLogo = new JLabel(iconLogo);
-        imageLabelLogo.setBorder(BorderFactory.createEmptyBorder(30, 0, 450, 60)); // Add border
-        innerPanel.add(imageLabelLogo,BorderLayout.EAST);
+        imageLabelLogo.setBorder(BorderFactory.createEmptyBorder(-30, 0, 450, 60)); // Add border
+        panelForDesign.add(imageLabelLogo,BorderLayout.NORTH);
+        innerPanel.add(panelForDesign,BorderLayout.EAST);
 
 
 
