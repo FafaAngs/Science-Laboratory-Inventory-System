@@ -15,7 +15,7 @@ public class LabDashBoard {
     JLabel userWelcome = new JLabel();
     JLabel userHistory = new JLabel();
     JLabel userLiveTime = new JLabel();
-    HomePage homePage = new HomePage();
+     HomePage homePage = new HomePage();
     
     public void StartDashBoard() {
         
@@ -86,7 +86,7 @@ public class LabDashBoard {
         proceed.setForeground(Color.black.brighter());
         proceed.setFont(buttonFont);
         
-        JButton logout = new JButton("Back");
+        JButton logout = new JButton("Log Out");
       
         logout.setForeground(Color.black.brighter());
         logout.setFont(buttonFont);
@@ -96,6 +96,7 @@ public class LabDashBoard {
             
             public void actionPerformed(ActionEvent e) {
                 JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                UserInformation.firstTimeLogin=false;              
                 homePage.ShowGUI();
                 topFrame.dispose();
             }
@@ -148,10 +149,7 @@ public class LabDashBoard {
         
 
     }
-    
-   
-    
-
+  
     private static void updateTimeLabel(JLabel label) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy - h:mm:ss a");
         String formattedDateTime = dateFormat.format(new Date());

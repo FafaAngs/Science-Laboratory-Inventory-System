@@ -9,11 +9,14 @@ import java.util.Date;
 
 public class CreationPage {
 	UserInformation userInformation = new UserInformation(); 
+	static HomePage homePage = new HomePage();
 
 	JPanel panel;
 	
 	
 	public void createAndShowGUI() {
+		
+
         JFrame frame = new JFrame("Science Laboratory Inventory System");
      //   frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

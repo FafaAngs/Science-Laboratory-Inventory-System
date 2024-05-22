@@ -12,6 +12,8 @@ import javax.swing.*;
 
 
 public class InventoryPage {
+	
+	HomePage homePage = new HomePage();
 	 String userActivity="";
 	 String[] measurements = {"g", "mL", "mL", "g", "g", "g"};
 	 String[] materialNames = {"Salt", "Glucose", "Calcium", "Sulfur", "Buffers", "Solvent"};
@@ -27,6 +29,10 @@ public class InventoryPage {
 	int[]  originalValueEquipments = new int[scienceLabItems.equipments.length];
 
     public void StartInventoryPage() {
+    	
+    	if(!HomePage.isProgramRunning()) {
+           return;
+    	}
         JFrame frame = new JFrame("Science Laboratory Inventory System");
         JPanel panel = new JPanel();
       
@@ -45,11 +51,11 @@ public class InventoryPage {
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
 
-     // Create the button
+    
         JButton button = new JButton("GET ITEMS");
         JButton backbutton = new JButton("BACK");
 
-     // Add ActionListener to the button
+
      button.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
@@ -58,7 +64,7 @@ public class InventoryPage {
         	  boolean itemsTaken = false;
         	userInformation.loadFromJson();
           
-             
+              
                
                for (int i = 0; i < scienceLabItems.materials.length; i++) {
                    int materialTaken = originalValueMaterials[i] - scienceLabItems.materials[i];
@@ -75,6 +81,12 @@ public class InventoryPage {
                 		    String newActivity = "<br>" + materialNames[i] + ": " + materialTaken+ measurements[i]+" taken";
                             userInformation.UserHistory.set(userIndex, newActivity);  
                 		}
+                	   
+                	   
+String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+userInformation.LastName.get(userIndex).toUpperCase(),userInformation.IDNumber.get(userIndex), materialNames[i],Integer.toString(materialTaken)+measurements[i]};
+               		HomePage.addData(newData);
+               		
+               		homePage.saveDataToJson();
   
                 	   userInformation.saveToJson();
                      
@@ -99,7 +111,10 @@ public class InventoryPage {
                        } else {
                            String newActivity = "<br>" + equipmentNames[i] + ": " + equipmentTaken + " taken";
                            userInformation.UserHistory.set(userIndex, newActivity);
-                       }
+                       }                    
+               String[] newData = {userInformation.FirstName.get(userIndex)+" "+userInformation.LastName.get(userIndex),userInformation.IDNumber.get(userIndex), materialNames[i],Integer.toString(equipmentTaken)};
+               HomePage.addData(newData);                  		
+                  		homePage.saveDataToJson();
                        userInformation.saveToJson();
                       
                    }
@@ -127,10 +142,9 @@ public class InventoryPage {
      });
 
 
-        // Set the preferred size of the button
         button.setPreferredSize(new Dimension(150, 20));
 
-        // Set the font size of the button
+     
         button.setFont(new Font("Roboto", Font.BOLD, 15));
         
         
@@ -154,32 +168,17 @@ public class InventoryPage {
                 topFrame.dispose();
             }
         });
-        
-        
-        
-        
 
-        // Create a JPanel to hold the button
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.orange.darker());
-        
-        
-        
-        
-        
-        
+  
         buttonPanel.add(button);
         buttonPanel.add(backbutton);
         
 
-        // Add the button panel to the main panel
+      
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
-
-        
-
-      
-        
 
         panel.add(label, BorderLayout.NORTH);
         JPanel leftContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));

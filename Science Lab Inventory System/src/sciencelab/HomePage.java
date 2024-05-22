@@ -1,19 +1,35 @@
 package sciencelab;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.*;
+
+import java.util.Arrays;
+
 
 public class HomePage {
 	
+	
+	 public static String[][] data;
+	private static final String LOGS_FILE_PATH = "logs.json";
 	static JPanel panel ;
 	UserInformation userInformation = new UserInformation();
-	
-	  
-	
-	
-	
+	static JButton aboutUsButton = new JButton("About Us");
+    static JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0)); 
+    static JButton showHistory = new JButton("Logs");
+
+    
+
+    private static boolean isAboutUsButtonListenerAdded = false;
+    private static boolean showHistorylistenerAdded = false;
 	public void ShowGUI() {
+		loadDataFromJson();
         JFrame frame = new JFrame("Science Laboratory Inventory System");
       //  frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,7 +55,7 @@ public class HomePage {
         
 
         JLabel label = new JLabel("SCIENCE LABORATORY INVENTORY SYSTEM");
-        label.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 60)); // Add border
+        label.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 60)); 
         label.setForeground(Color.black.brighter());
         label.setFont(new Font("Serif", Font.BOLD, 36));
         label.setBackground(Color.orange.darker()); 
@@ -56,7 +72,7 @@ public class HomePage {
 
         ImageIcon icon = new ImageIcon("CTU.png"); 
         JLabel imageLabel = new JLabel(icon);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0)); // Add border
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
         
         JPanel innerPanel3 = new JPanel(); 
         innerPanel3.setLayout(new GridBagLayout());
@@ -98,7 +114,7 @@ public class HomePage {
         gbc.gridx = 1;
         
         JTextField textFieldEmail = new JTextField(16); 
-        innerPanel3.add(textFieldEmail, gbc);//second input
+        innerPanel3.add(textFieldEmail, gbc);//1st input
 
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -122,25 +138,35 @@ public class HomePage {
         gbcSignInButton.gridwidth = 1;
         gbcSignInButton.insets = new Insets(40, 90, 0, 0);
 
-        JButton signInButton = new JButton("SIGN IN");
+        
         Color skyBlue = new Color(135, 206, 235);
+        JButton signInButton = new JButton("SIGN IN");
         signInButton.setBackground(skyBlue.darker());
         signInButton.setForeground(Color.WHITE);
         innerPanel3.add(signInButton, gbcSignInButton);
-
-        signInButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-               
-             
-                String inputtedEmail = textFieldEmail.getText();
-                String inputtedPassword = textFieldPassword.getText();
-                userInformation.loadFromJson();
-                userInformation.loginAccount(inputtedEmail,inputtedPassword,panel);
-            }
-        });
-
         
 
+	 signInButton.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+         	if(isProgramRunning()) {
+         		String inputtedEmail = textFieldEmail.getText();
+                 String inputtedPassword = textFieldPassword.getText();
+                 userInformation.loadFromJson();
+                 userInformation.loginAccount(inputtedEmail,inputtedPassword,panel);
+         	}else {
+         		JFrame loginHomePage = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                 loginHomePage.dispose(); 
+         	}
+          	} 
+         
+     });
+ 
+        	
+        	
+        
+        
+        
+        
         GridBagConstraints gbcForgotPasswordLabel = new GridBagConstraints();
         gbcForgotPasswordLabel.gridx = 1;
         gbcForgotPasswordLabel.gridy = 4;
@@ -155,12 +181,17 @@ public class HomePage {
         forgotPasswordLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         forgotPasswordLabel.addMouseListener(new MouseAdapter() {
         	 public void mouseClicked(MouseEvent e) {
-               
-               
-                    RecoveryPage recoveryPage = new RecoveryPage();
-                    recoveryPage.StartRecovery();            
-                    JFrame loginHomePage = (JFrame) SwingUtilities.getWindowAncestor(panel);
-                    loginHomePage.dispose(); 
+        	
+        		 if(isProgramRunning()) {
+        			 RecoveryPage recoveryPage = new RecoveryPage();
+                     recoveryPage.StartRecovery();            
+                     JFrame loginHomePage = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                     loginHomePage.dispose(); 
+             	}else {
+             		JFrame loginHomePage = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                     loginHomePage.dispose(); 
+             	}
+                    
                     
         		 
         	 }
@@ -190,95 +221,129 @@ public class HomePage {
         signUpLinkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         signUpLinkLabel.addMouseListener(new MouseAdapter() {
        	 public void mouseClicked(MouseEvent e) {
-              
-            
-                   CreationPage creationPage = new CreationPage();
-                   creationPage.createAndShowGUI();
-                   JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
-                   topFrame.dispose(); // Close the current frame
-                  
-               
-               
-             
-                   
-                   
-       		 
-       	 }
-
-		
-               
+    		 if(isProgramRunning()) {
+    			 CreationPage creationPage = new CreationPage();
+                 creationPage.createAndShowGUI();
+                 JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                 topFrame.dispose();
+         	}else {
+         		JFrame loginHomePage = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                 loginHomePage.dispose(); 
+         	}
+                      		 
+       	 }            
        });
+        aboutUsButton.setPreferredSize(new Dimension(100, 40)); 
+        showHistory.setPreferredSize(new Dimension(100, 40)); 
+        buttonPanel.add(showHistory);
         
-    
-        JButton aboutUsButton = new JButton("About Us");
-        aboutUsButton.setPreferredSize(new Dimension(100, 40));
         
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));      
-        buttonPanel.add(aboutUsButton);
-        
-        buttonPanel.setBackground(new Color(64, 64, 64, 0)); 
-
-
-        aboutUsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-         
-            	JPanel panel = new JPanel(new BorderLayout());
-                 panel.setBackground(Color.BLACK.darker()); 
-                 panel.setOpaque(true);
-            	
-            	JPanel imagePanel = new JPanel(new GridLayout(1, 2)); 
-            	
-            	ImageIcon icon2 = new ImageIcon("angs.png");
-            	Image image2 = icon2.getImage();
-         
-            	int width = 200; 
-            	int height = 200; 
-            	Image resizedImage2 = image2.getScaledInstance(250, height, Image.SCALE_SMOOTH);
-            	ImageIcon resizedIcon2 = new ImageIcon(resizedImage2);
-            	JLabel imageLabel2 = new JLabel(resizedIcon2);
-            	imagePanel.add(imageLabel2); 
-            	panel.add(imagePanel, BorderLayout.CENTER); 
-            	imagePanel.setBackground(new Color(64, 64, 64, 123)); 
-            	
-            	ImageIcon icon = new ImageIcon("clark.jpg");
-            	Image image = icon.getImage();
-         
-            	 
-            	Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-            	ImageIcon resizedIcon = new ImageIcon(resizedImage);
-            	JLabel imageLabel = new JLabel(resizedIcon);
-            	imagePanel.add(imageLabel); 
-            	panel.add(imagePanel, BorderLayout.CENTER); 
-            	imagePanel.setBackground(new Color(64, 64, 64, 123)); 
-
-            	
-            	JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
-            	textPanel.add(new JLabel("<html><b><font color='#FFFFFF'>ANGILBERT ANGCON</font></b><br><center><font color='#00FF00'>PROGRAMMER</font></center></html>"));
-            	textPanel.add(new JLabel("                                                  "));
-            	textPanel.add(new JLabel("<html><b><font color='#FFFFFF'>KENT IBALE</font></b><br><center><font color='#00FF00'>DESIGNER</font></center></html>"));
-
-            	
-            	panel.add(textPanel, BorderLayout.SOUTH); 
-            	textPanel.setBackground(new Color(64, 64, 64, 123));
-
-       
-            	JOptionPane.showMessageDialog(
-            	    frame,
-            	    panel,
-            	    "About Us",
-            	    JOptionPane.PLAIN_MESSAGE
-            	);
-
-
-
-
+        if (!showHistorylistenerAdded) { 
+        	showHistory.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                	
+                	
+                	 
+                		 JDialog historyDialog = new JDialog();
+                         historyDialog.setTitle("History");
+                         historyDialog.setSize(1200, 600);
+                         historyDialog.setLocationRelativeTo(null);
+                         
+                         JPanel historyPanel = new JPanel(new BorderLayout());
+                         
+                      
+                         
+                         Font font = new Font(Font.MONOSPACED, Font.PLAIN, 16); 
+               
+                         String[] columns = {"Name", "ID Number", "Item Name", "QTY / Volume"};
+                         JTable table = new JTable(new DefaultTableModel(data, columns)) {
+                             @Override
+                             public boolean isCellEditable(int row, int column) {
+                                 return false; 
+                             }
+                         };
+                         
+                       
+                         table.setFont(font);
+                         
+                       
+                         JScrollPane scrollPane = new JScrollPane(table);
+                         
+                        
+                         historyPanel.add(scrollPane, BorderLayout.CENTER);
+                         
+                         
+                         historyDialog.getContentPane().add(historyPanel);
+                         
+                         historyDialog.setVisible(true);
+                	 
                     
+                	 
+                }
+                
+                
+            });
+        	showHistorylistenerAdded=true;
+        }
+        buttonPanel.add(aboutUsButton);
+        buttonPanel.setBackground(new Color(64, 64, 64, 0)); 
+        if (!isAboutUsButtonListenerAdded) {
+        	aboutUsButton.addActionListener(new ActionListener() {
+        	       
+                public void actionPerformed(ActionEvent e) {
+             
+                	JPanel panel = new JPanel(new BorderLayout());
+                     panel.setBackground(Color.BLACK.darker()); 
+                     panel.setOpaque(true);
+                	
+                	JPanel imagePanel = new JPanel(new GridLayout(1, 2)); 
+                	
+                	ImageIcon icon2 = new ImageIcon("angs.png");
+                	Image image2 = icon2.getImage();
+             
+                	int width = 200; 
+                	int height = 200; 
+                	Image resizedImage2 = image2.getScaledInstance(250, height, Image.SCALE_SMOOTH);
+                	ImageIcon resizedIcon2 = new ImageIcon(resizedImage2);
+                	JLabel imageLabel2 = new JLabel(resizedIcon2);
+                	imagePanel.add(imageLabel2); 
+                	
+                	imagePanel.setBackground(new Color(64, 64, 64, 123)); 
+                	
+                	ImageIcon icon = new ImageIcon("clark.jpg");
+                	Image image = icon.getImage();
+             
+                	 
+                	Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                	ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                	JLabel imageLabel = new JLabel(resizedIcon);
+                	
+                	panel.add(imagePanel, BorderLayout.CENTER); 
+              
 
-            
+                	
+                	JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
+                	textPanel.add(new JLabel("<html><b><font color='#FFFFFF'>ANGILBERT ANGCON</font></b><br><center><font color='#00FF00'>PROGRAMMER</font></center></html>"));
+                	textPanel.add(new JLabel("                                                  "));
+                	textPanel.add(new JLabel("<html><b><font color='#FFFFFF'>KENT IBALE</font></b><br><center><font color='#00FF00'>DESIGNER</font></center></html>"));
 
-            }
-        });
+                	imagePanel.add(imageLabel); 
+                	panel.add(textPanel, BorderLayout.SOUTH); 
+                	textPanel.setBackground(new Color(64, 64, 64, 123));
+
+           
+                	JOptionPane.showMessageDialog(
+                	    frame,
+                	    panel,
+                	    "About Us",
+                	    JOptionPane.PLAIN_MESSAGE
+                	);
+                }
+            });
+        	 isAboutUsButtonListenerAdded = true;
+        }
+        
 
     
     
@@ -287,6 +352,8 @@ public class HomePage {
         panelForDesign.setBackground(new Color(64, 64, 64, 0)); 
         panelForDesign.setOpaque(true);
         panelForDesign.setPreferredSize(new Dimension(700, 0));
+        
+        
         
 
         innerPanel3.add(signUpLinkLabel, gbcSignUpLinkLabel);
@@ -313,11 +380,57 @@ public class HomePage {
         panel.add(innerPanel);
         frame.add(panel);
         frame.setVisible(true);
+       
+
+
         
-        
-    }
+ 
+       
+    }	
+	public static boolean isProgramRunning() {
+	    Component[] components = buttonPanel.getComponents();
+	    for (Component component : components) {
+	        if (component.equals(aboutUsButton)) {
+	            return true; 
+	        }
+	    }
+	    return false; 
+	}
 	
-	
+	public void saveDataToJson() {
+	    try (Writer writer = new FileWriter(LOGS_FILE_PATH)) {
+	        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	        gson.toJson(data, writer);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	public void loadDataFromJson() {
+	    try (Reader reader = new FileReader(LOGS_FILE_PATH)) {
+	        Gson gson = new Gson();
+	        data = gson.fromJson(reader, String[][].class);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
+
+	 public static void addData(String[] newData) {
+	        if (data == null) {
+	        
+	            data = new String[1][];
+	            data[0] = newData;
+	        } else {
+	            
+	            String[][] newDataArray = Arrays.copyOf(data, data.length + 1);
+	            newDataArray[data.length] = newData;
+	            data = newDataArray;
+	        }
+	    }
+
+
+
 	  
 	
 }

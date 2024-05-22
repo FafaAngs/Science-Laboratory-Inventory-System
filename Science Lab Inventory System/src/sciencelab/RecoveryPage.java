@@ -29,7 +29,7 @@ public class RecoveryPage {
 	
 	public void StartRecovery() {
         JFrame frame = new JFrame("Science Laboratory Inventory System");
-     // frame.setUndecorated(true);
+       frame.setUndecorated(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1300, 800);
         frame.setLocationRelativeTo(null);
@@ -83,7 +83,7 @@ public class RecoveryPage {
 
 
 
-        headerMainPage.setHorizontalAlignment(SwingConstants.CENTER); // Center the text horizontally
+        headerMainPage.setHorizontalAlignment(SwingConstants.CENTER); // Center ang text horizontally
 
         // GridBagConstraints for POTANGG INA label
         GridBagConstraints gbcHeader = new GridBagConstraints();
@@ -161,7 +161,7 @@ public class RecoveryPage {
 
                 JButton okButton = new JButton("OK");
                 okButton.addActionListener(e1 -> {
-                    calendarDialog.dispose(); // Close the dialog when "OK" button is clicked
+                    calendarDialog.dispose();
                 });
                 otherpanel.add(okButton, BorderLayout.SOUTH);
 
@@ -173,14 +173,6 @@ public class RecoveryPage {
         });
 
 
-
-
-        
-        
-     
-
-        
-    
         GridBagConstraints gbcSignInButton = new GridBagConstraints();
         gbcSignInButton.gridx = 1;
         gbcSignInButton.gridy = 5;
@@ -206,9 +198,7 @@ public class RecoveryPage {
                 String textBirthdayInput = textFieldBirthday.getText();
 
         
-            	int index = userInformation.IDNumber.indexOf(idNumberInput);
-            	System.out.println(index);
-            	System.out.println(idNumberInput);
+            	int index = userInformation.IDNumber.indexOf(idNumberInput);           
             	if (index != -1) {
                
                     if (userInformation.LastName.get(index).equals(textLastNameInput.toLowerCase()) && userInformation.Birthdate.get(index).equals(textBirthdayInput)) {
@@ -226,8 +216,12 @@ public class RecoveryPage {
              
             }
         });
-
         
+        
+      
+        
+        
+       
 
   
         GridBagConstraints gbcSignUpLabel = new GridBagConstraints();
@@ -250,10 +244,10 @@ public class RecoveryPage {
         JLabel signUpLinkLabel = new JLabel("Click here");
         signUpLinkLabel.setForeground(skyBlue.brighter());
         signUpLinkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        signUpLinkLabel.addMouseListener(new MouseAdapter() {
+        
+        signUpLinkLabel.addMouseListener(new MouseAdapter() {//mouse click function perform
        	 public void mouseClicked(MouseEvent e) {
-              
-                   System.out.println("Back to Sign in");
+                       
                    HomePage homePage = new HomePage();
                    homePage.ShowGUI();
                
@@ -267,7 +261,7 @@ public class RecoveryPage {
        });
         
         JPanel panelForDesign = new JPanel(new BorderLayout());
-        panelForDesign.setBackground(new Color(64, 64, 64, 0)); // transparent
+        panelForDesign.setBackground(new Color(64, 64, 64, 0)); 
         panelForDesign.setOpaque(true);
         panelForDesign.setPreferredSize(new Dimension(700, 0));
 

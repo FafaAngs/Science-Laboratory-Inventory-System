@@ -11,10 +11,13 @@ public class ScienceLabInventory {
     static ScienceLabItems scienceLabItems = new ScienceLabItems();
 
     public static void main(String[] args) {
+	//recoveryPage.StartRecovery();
     	
+   	
     	
-    	//recoveryPage.StartRecovery();
-     homePage.ShowGUI();
+    homePage.ShowGUI();
+     
+  
 //inventoryPage.StartInventoryPage();
     	//scienceLabItems.saveToJson();
    //labDashBoard.StartDashBoard();

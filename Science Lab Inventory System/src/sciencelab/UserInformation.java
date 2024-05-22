@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class UserInformation {
 	
-	static Date currentDate = new Date();
+	
 	public static HomePage homePage = new HomePage();
 	static LabDashBoard labDashBoard = new LabDashBoard();
 	 
@@ -42,7 +42,7 @@ public class UserInformation {
     public List<String> IDNumber = new ArrayList<>();
     public List<String> LastName = new ArrayList<>();
     public List<String> Birthdate = new ArrayList<>();
-    private List<String> FirstName = new ArrayList<>();
+    public List<String> FirstName = new ArrayList<>();
     private List<String> AccountDateCreated = new ArrayList<>();
     private List<String> LastLogin = new ArrayList<>();
     public List<String> UserHistory = new ArrayList<>();
@@ -100,6 +100,7 @@ public class UserInformation {
         Password.add(password + Email.indexOf(emailAddress));
         showPasswordDialog(password + Email.indexOf(emailAddress));
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\nh:mm:ss a");
+        Date currentDate = new Date();
     	String formattedDateTime = dateFormat.format(currentDate);
     	AccountDateCreated.add(formattedDateTime);	
     	LastLogin.add("");
@@ -133,7 +134,7 @@ public class UserInformation {
             if (Password.get(index).equals(password)) {
             	
             	SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\nh:mm:ss a");
-            	
+            	Date currentDate = new Date();
             	String formattedDateTime = dateFormat.format(currentDate);
             	
             	if(!firstTimeLogin) {
@@ -142,14 +143,12 @@ public class UserInformation {
                 	if(!LastLogin.isEmpty() && LastLogin.get(index).length()>2) {
                 		
                 		lastLogin = LastLogin.get(index);
-                		LastLogin.set(index, formattedDateTime);
-                	
-                	   
+                		LastLogin.set(index, formattedDateTime);	   
                 	}else {
                 		lastLogin = formattedDateTime;
                 		LastLogin.set(index, formattedDateTime);
                 		saveToJson();
-
+                		System.out.println("else");
                 	}
             		
             		
