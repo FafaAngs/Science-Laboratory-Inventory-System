@@ -127,7 +127,7 @@ public class RecoveryPage {
         gbc.gridy = 3;
         gbc.insets = new Insets(10, 50, 10, 10);
         
-        JLabel itemNameLabel3 = new JLabel("Enter your Birthday");
+        JLabel itemNameLabel3 = new JLabel("Enter your Birthdate");
         itemNameLabel3.setForeground(Color.WHITE);
         JTextField textFieldBirthday = new JTextField(16); 
         

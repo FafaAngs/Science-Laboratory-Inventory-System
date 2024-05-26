@@ -112,7 +112,7 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
                            String newActivity = "<br>" + equipmentNames[i] + ": " + equipmentTaken + " taken";
                            userInformation.UserHistory.set(userIndex, newActivity);
                        }                    
-               String[] newData = {userInformation.FirstName.get(userIndex)+" "+userInformation.LastName.get(userIndex),userInformation.IDNumber.get(userIndex), materialNames[i],Integer.toString(equipmentTaken)};
+               String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+userInformation.LastName.get(userIndex).toUpperCase(),userInformation.IDNumber.get(userIndex), materialNames[i],Integer.toString(equipmentTaken)};
                HomePage.addData(newData);                  		
                   		homePage.saveDataToJson();
                        userInformation.saveToJson();
