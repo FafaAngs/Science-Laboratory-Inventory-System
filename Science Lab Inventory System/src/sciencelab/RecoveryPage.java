@@ -179,7 +179,7 @@ public class RecoveryPage {
         gbcSignInButton.gridwidth = 1;
         gbcSignInButton.insets = new Insets(40, 85, 0, 20);
 
-        JButton signUpButton = new JButton("RESET PASSWORD");
+        JButton signUpButton = new JButton("RECOVER PASSWORD");
         Color skyBlue = new Color(135, 206, 235);
         signUpButton.setBackground(skyBlue.darker());
         signUpButton.setForeground(Color.WHITE);
