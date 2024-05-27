@@ -9,13 +9,14 @@ public class ScienceLabInventory {
     static LabDashBoard labDashBoard = new LabDashBoard();
     static InventoryPage inventoryPage = new InventoryPage();
     static ScienceLabItems scienceLabItems = new ScienceLabItems();
+    static AdminPanel adminPanel = new AdminPanel();
 
     public static void main(String[] args) {
 	//recoveryPage.StartRecovery();
     	
-   	
+  adminPanel.StartAdminPanel();
     	
-    homePage.ShowGUI();
+  // homePage.ShowGUI();
      
   
 //inventoryPage.StartInventoryPage();

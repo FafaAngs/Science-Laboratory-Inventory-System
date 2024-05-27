@@ -24,6 +24,7 @@ public class InventoryPage {
 	static LabDashBoard labDashBoard = new LabDashBoard();
 	ScienceLabItems scienceLabItems = new ScienceLabItems();
 	UserInformation userInformation = new UserInformation();
+	AdminPanel adminPanel = new AdminPanel();
 	
 	int[] originalValueMaterials = new int[scienceLabItems.materials.length];
 	int[]  originalValueEquipments = new int[scienceLabItems.equipments.length];
@@ -84,9 +85,9 @@ public class InventoryPage {
                 	   
                 	   
 String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+userInformation.LastName.get(userIndex).toUpperCase(),userInformation.IDNumber.get(userIndex), materialNames[i],Integer.toString(materialTaken)+measurements[i]};
-               		HomePage.addData(newData);
+               		AdminPanel.addData(newData);
                		
-               		homePage.saveDataToJson();
+               		adminPanel.saveDataToJson();
   
                 	   userInformation.saveToJson();
                      
@@ -113,8 +114,8 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
                            userInformation.UserHistory.set(userIndex, newActivity);
                        }                    
                String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+userInformation.LastName.get(userIndex).toUpperCase(),userInformation.IDNumber.get(userIndex), equipmentNames[i],Integer.toString(equipmentTaken)};
-               HomePage.addData(newData);                  		
-                  		homePage.saveDataToJson();
+               AdminPanel.addData(newData);                  		
+                  		adminPanel.saveDataToJson();
                        userInformation.saveToJson();
                       
                    }

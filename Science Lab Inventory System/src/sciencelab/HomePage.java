@@ -16,20 +16,19 @@ import java.util.Arrays;
 public class HomePage {
 	
 	
-	 public static String[][] data;
-	private static final String LOGS_FILE_PATH = "logs.json";
+	 
+	
 	static JPanel panel ;
 	UserInformation userInformation = new UserInformation();
 	static JButton aboutUsButton = new JButton("About Us");
     static JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0)); 
-    static JButton showHistory = new JButton("Logs");
+   
 
     
 
     private static boolean isAboutUsButtonListenerAdded = false;
-    private static boolean showHistorylistenerAdded = false;
 	public void ShowGUI() {
-		loadDataFromJson();
+		
         JFrame frame = new JFrame("Science Laboratory Inventory System");
       //  frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -234,58 +233,11 @@ public class HomePage {
        	 }            
        });
         aboutUsButton.setPreferredSize(new Dimension(100, 40)); 
-        showHistory.setPreferredSize(new Dimension(100, 40)); 
-        buttonPanel.add(showHistory);
+       
+   
         
         
-        if (!showHistorylistenerAdded) { 
-        	showHistory.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                	
-                	
-                	 
-                		 JDialog historyDialog = new JDialog();
-                         historyDialog.setTitle("History");
-                         historyDialog.setSize(1200, 600);
-                         historyDialog.setLocationRelativeTo(null);
-                         
-                         JPanel historyPanel = new JPanel(new BorderLayout());
-                         
-                      
-                         
-                         Font font = new Font(Font.MONOSPACED, Font.PLAIN, 16); 
-               
-                         String[] columns = {"Name", "ID Number", "Item Name", "QTY / Volume"};
-                         JTable table = new JTable(new DefaultTableModel(data, columns)) {
-                             @Override
-                             public boolean isCellEditable(int row, int column) {
-                                 return false; 
-                             }
-                         };
-                         
-                       
-                         table.setFont(font);
-                         
-                       
-                         JScrollPane scrollPane = new JScrollPane(table);
-                         
-                        
-                         historyPanel.add(scrollPane, BorderLayout.CENTER);
-                         
-                         
-                         historyDialog.getContentPane().add(historyPanel);
-                         
-                         historyDialog.setVisible(true);
-                	 
-                    
-                	 
-                }
-                
-                
-            });
-        	showHistorylistenerAdded=true;
-        }
+        
         buttonPanel.add(aboutUsButton);
         buttonPanel.setBackground(new Color(64, 64, 64, 0)); 
         if (!isAboutUsButtonListenerAdded) {
@@ -397,37 +349,7 @@ public class HomePage {
 	    return false; 
 	}
 	
-	public void saveDataToJson() {
-	    try (Writer writer = new FileWriter(LOGS_FILE_PATH)) {
-	        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	        gson.toJson(data, writer);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
-	public void loadDataFromJson() {
-	    try (Reader reader = new FileReader(LOGS_FILE_PATH)) {
-	        Gson gson = new Gson();
-	        data = gson.fromJson(reader, String[][].class);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
-
-
-
-	 public static void addData(String[] newData) {
-	        if (data == null) {
-	        
-	            data = new String[1][];
-	            data[0] = newData;
-	        } else {
-	            
-	            String[][] newDataArray = Arrays.copyOf(data, data.length + 1);
-	            newDataArray[data.length] = newData;
-	            data = newDataArray;
-	        }
-	    }
+	
 
 
 
