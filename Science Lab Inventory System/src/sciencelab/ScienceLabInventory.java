@@ -10,11 +10,12 @@ public class ScienceLabInventory {
     static InventoryPage inventoryPage = new InventoryPage();
     static ScienceLabItems scienceLabItems = new ScienceLabItems();
     static AdminPanel adminPanel = new AdminPanel();
+    static FirstHomePage firstHomePage = new FirstHomePage();
 
     public static void main(String[] args) {
 	//recoveryPage.StartRecovery();
-    	
-  adminPanel.StartAdminPanel();
+    	firstHomePage.StartFirstHomePage();
+  //adminPanel.StartAdminPanel();
     	
   // homePage.ShowGUI();
      
