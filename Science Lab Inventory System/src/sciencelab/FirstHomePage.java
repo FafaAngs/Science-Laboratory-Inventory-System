@@ -2,23 +2,18 @@ package sciencelab;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -36,7 +31,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 public class FirstHomePage {
 
@@ -49,11 +43,11 @@ public class FirstHomePage {
 	
 	
 	
-	
+	JFrame frame = new JFrame("Science Laboratory Inventory System");
 	
 	
 	public void StartFirstHomePage() {
-		 JFrame frame = new JFrame("Science Laboratory Inventory System");
+		
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setSize(1300, 800);
 	        frame.setLocationRelativeTo(null);
@@ -202,6 +196,8 @@ public class FirstHomePage {
 
 	        if (validateLogin(username, password)) {
 	            JOptionPane.showMessageDialog(null, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+	            adminPanel.StartAdminPanel();
+	            frame.dispose();
 	            loginDialog.dispose();
 	        } else {
 	            JOptionPane.showMessageDialog(null, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -240,7 +236,7 @@ public class FirstHomePage {
 
 	    private boolean validateLogin(String username, String password) {
 	 
-	        return "admin".equals(username) && "admin".equals(password);
+	        return "admin".equalsIgnoreCase(username) && "admin".equalsIgnoreCase(password);
 	    }
 	
 	

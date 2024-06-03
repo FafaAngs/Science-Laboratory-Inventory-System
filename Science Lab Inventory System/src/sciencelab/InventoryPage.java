@@ -5,7 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.*;
 
 
@@ -13,18 +14,19 @@ import javax.swing.*;
 
 public class InventoryPage {
 	
-	HomePage homePage = new HomePage();
+	 HomePage homePage = new HomePage();
 	 String userActivity="";
 	 String[] measurements = {"g", "mL", "mL", "g", "g", "g"};
-	 String[] materialNames = {"Salt", "Glucose", "Calcium", "Sulfur", "Buffers", "Solvent"};
-	 String[] equipmentNames = {"Erlenmeyer Flask", "Beaker", "Microscope", "Test Tube", "Thermometer", "Weighing Scale"};
+	public String[] materialNames = {"Salt", "Glucose", "Calcium", "Sulfur", "Buffers", "Solvent"};
+	 public String[] equipmentNames = {"Erlenmeyer Flask", "Beaker", "Microscope", "Test Tube", "Thermometer", "Weighing Scale"};
 	
+
 	
 	public static int userIndex;
 	static LabDashBoard labDashBoard = new LabDashBoard();
 	ScienceLabItems scienceLabItems = new ScienceLabItems();
 	UserInformation userInformation = new UserInformation();
-	AdminPanel adminPanel = new AdminPanel();
+  AdminPanel adminPanel = new AdminPanel();
 	
 	int[] originalValueMaterials = new int[scienceLabItems.materials.length];
 	int[]  originalValueEquipments = new int[scienceLabItems.equipments.length];
@@ -37,19 +39,37 @@ public class InventoryPage {
         JFrame frame = new JFrame("Science Laboratory Inventory System");
         JPanel panel = new JPanel();
       
-
+panel.setBackground(Color.orange.darker());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1300, 800);
         frame.setLocationRelativeTo(null);
         panel.setLayout(new BorderLayout());
 
-        JLabel label = new JLabel("SCIENCE LABORATORY INVENTORY SYSTEM");
-        label.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 60));
-        label.setForeground(Color.black.brighter());
-        label.setFont(new Font("Showcard Gothic", Font.BOLD, 36));
-        label.setBackground(Color.orange.darker());
-        label.setOpaque(true);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JPanel headerPanel = new JPanel(new GridLayout(1, 2));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 60));
+        headerPanel.setBackground(Color.ORANGE);
+        headerPanel.setOpaque(true);
+
+    
+        JLabel equipmentsLabel = new JLabel("EQUIPMENTS");
+        equipmentsLabel.setForeground(Color.BLACK);
+        equipmentsLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        equipmentsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        equipmentsLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 100)); 
+
+        JLabel materialsLabel = new JLabel("MATERIALS");
+        materialsLabel.setForeground(Color.BLACK);
+        materialsLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        materialsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        materialsLabel.setBorder(BorderFactory.createEmptyBorder(0, 280, 0, 0));
+
+   
+        headerPanel.add(equipmentsLabel);
+        headerPanel.add(materialsLabel);
+
+        panel.add(headerPanel, BorderLayout.NORTH);
+        
+
 
 
     
@@ -82,13 +102,14 @@ public class InventoryPage {
                 		    String newActivity = "<br>" + materialNames[i] + ": " + materialTaken+ measurements[i]+" taken";
                             userInformation.UserHistory.set(userIndex, newActivity);  
                 		}
+                	   SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy - h:mm:ss a");
+                	    String formattedDateTime = dateFormat.format(new Date());
                 	   
-                	   
-String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+userInformation.LastName.get(userIndex).toUpperCase(),userInformation.IDNumber.get(userIndex), materialNames[i],Integer.toString(materialTaken)+measurements[i]};
-               		AdminPanel.addData(newData);
-               		
-               		adminPanel.saveDataToJson();
-  
+String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+userInformation.LastName.get(userIndex).toUpperCase(),userInformation.IDNumber.get(userIndex), materialNames[i],"-"+Integer.toString(materialTaken)+measurements[i],formattedDateTime};
+      
+              adminPanel.addData(newData);             		
+              adminPanel.saveDataToJson();
+              
                 	   userInformation.saveToJson();
                      
                                           
@@ -112,10 +133,13 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
                        } else {
                            String newActivity = "<br>" + equipmentNames[i] + ": " + equipmentTaken + " taken";
                            userInformation.UserHistory.set(userIndex, newActivity);
-                       }                    
-               String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+userInformation.LastName.get(userIndex).toUpperCase(),userInformation.IDNumber.get(userIndex), equipmentNames[i],Integer.toString(equipmentTaken)};
-               AdminPanel.addData(newData);                  		
-                  		adminPanel.saveDataToJson();
+                       } 
+                       SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy - h:mm:ss a");
+               	    String formattedDateTime = dateFormat.format(new Date());
+               String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+userInformation.LastName.get(userIndex).toUpperCase(),userInformation.IDNumber.get(userIndex), equipmentNames[i],"-"+Integer.toString(equipmentTaken),formattedDateTime};
+               adminPanel.addData(newData);                  		
+               adminPanel.saveDataToJson();
+           
                        userInformation.saveToJson();
                       
                    }
@@ -171,7 +195,7 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
         });
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(Color.orange.darker());
+        buttonPanel.setBackground(Color.ORANGE);
   
         buttonPanel.add(button);
         buttonPanel.add(backbutton);
@@ -181,16 +205,16 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
 
-        panel.add(label, BorderLayout.NORTH);
+        panel.add(headerPanel, BorderLayout.NORTH);
         JPanel leftContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftContainer.setBorder(BorderFactory.createEmptyBorder(40,100, 0, 0)); 
-        leftContainer.setBackground(Color.gray);
+        leftContainer.setBackground(Color.orange.darker());
         leftContainer.setPreferredSize(new Dimension(300, 200)); 
         panel.add(leftContainer, BorderLayout.WEST);
 
         JPanel rightContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightContainer.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 100));
-        rightContainer.setBackground(Color.gray);
+        rightContainer.setBackground(Color.orange.darker());
         rightContainer.setPreferredSize(new Dimension(300, 200)); 
         panel.add(rightContainer, BorderLayout.EAST);
 
@@ -201,6 +225,7 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
         	 ImageIcon icon = new ImageIcon();
      
         	 JLabel leftNameLabel = new JLabel();
+        	 leftNameLabel.setForeground(Color.green);
         	 
         	
         	if(i==1) {
@@ -235,7 +260,7 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
                Image img = icon.getImage();
                BufferedImage resizedImg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB); 
                Graphics2D g2d = resizedImg.createGraphics();
-               g2d.setColor(Color.gray); 
+               g2d.setColor(Color.orange.darker());
                g2d.fillRect(0, 0, resizedImg.getWidth(), resizedImg.getHeight()); 
                g2d.drawImage(img, 0, 0, 100, 100, null);
                g2d.dispose();
@@ -244,7 +269,7 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
                
             ImageIcon resizedIcon = new ImageIcon(resizedImg);
             JLabel leftImageLabel = new JLabel(resizedIcon);
-            leftNameLabel.setBackground(Color.gray);
+            leftNameLabel.setBackground(Color.orange.darker());
             leftNameLabel.setOpaque(true);
           
             JPanel leftPanel = new JPanel(new BorderLayout());
@@ -290,7 +315,7 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
             Image img = icon.getImage();
             BufferedImage resizedImg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB); 
             Graphics2D g2d = resizedImg.createGraphics();
-            g2d.setColor(Color.gray); 
+            g2d.setColor(Color.orange.darker()); 
             g2d.fillRect(0, 0, resizedImg.getWidth(), resizedImg.getHeight()); 
             g2d.drawImage(img, 0, 0, 100, 100, null);
             g2d.dispose();
@@ -298,7 +323,7 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
             JLabel rightImageLabel = new JLabel(resizedIcon);
          
             
-            rightNameLabel.setBackground(Color.gray);
+            rightNameLabel.setBackground(Color.orange.darker());
             rightNameLabel.setOpaque(true); 
             JPanel rightPanel = new JPanel(new BorderLayout());
            
@@ -309,23 +334,23 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
         }
      
         JPanel innerPanel = new JPanel(new GridLayout(0, 2));
-       // innerPanel.setBackground(Color.BLUE);
+       innerPanel.setBackground(Color.orange.darker());
         panel.add(innerPanel, BorderLayout.CENTER);
 
         JPanel leftPanel = new JPanel(new GridLayout(6, 1));
         leftPanel.setBorder(BorderFactory.createEmptyBorder(80, 0, 0, 0)); 
-        leftPanel.setBackground(Color.gray);
+        leftPanel.setBackground(Color.orange.darker());
         
        
         scienceLabItems.loadFromJson();
         
         for (int i = 0; i < 6; i++) {
-        	SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 40, 1);
+        	SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, scienceLabItems.equipments[i], 1);
             JSpinner spinner = new JSpinner(spinnerModel);
             spinner.setPreferredSize(new Dimension(40, spinner.getPreferredSize().height)); 
             JPanel spinnerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             JLabel spinnerLabel = new JLabel("Stock Left: "+scienceLabItems.equipments[i]); 
-          spinnerPanel.setBackground(Color.gray);
+          spinnerPanel.setBackground(Color.orange.darker());
           
           
           int index = i;
@@ -346,7 +371,7 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
         	    if (updatedEquipmentCount < 0) {
         	        scienceLabItems.equipments[index] = 0;
         	        spinnerLabel.setText("<html>Stock Left: <span style='color:#FF0000;'>" + scienceLabItems.equipments[index] + "</span></html>");
-        	        spinner.setValue(originalValueEquipments[index]); // Reset spinner to original value to prevent negative count
+        	        spinner.setValue(originalValueEquipments[index]);
         	        JOptionPane.showMessageDialog(null, "Cannot deduct more items. Stock is empty.", "Warning", JOptionPane.WARNING_MESSAGE);
         	        return;
         	    }
@@ -426,16 +451,16 @@ String[] newData = {userInformation.FirstName.get(userIndex).toUpperCase()+" "+u
 
         JPanel rightPanel = new JPanel(new GridLayout(6, 1));
         rightPanel.setBorder(BorderFactory.createEmptyBorder(80, 0, 0, 0)); 
-        rightPanel.setBackground(Color.gray);
+        rightPanel.setBackground(Color.orange.darker());
         
         
         
         for (int i = 0; i < 6; i++) {
-        	SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 400, 10);
+        	SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, scienceLabItems.materials[i], 10);
             JSpinner spinner = new JSpinner(spinnerModel);
             spinner.setPreferredSize(new Dimension(60, spinner.getPreferredSize().height)); 
             JPanel spinnerPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            spinnerPanel.setBackground(Color.GRAY);
+            spinnerPanel.setBackground(Color.orange.darker());
             JLabel spinnerLabel = new JLabel("Stock Left: " + scienceLabItems.materials[i] +measurements[i]); 
             
             int index = i;

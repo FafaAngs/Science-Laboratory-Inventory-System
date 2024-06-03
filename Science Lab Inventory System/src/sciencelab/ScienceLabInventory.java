@@ -15,14 +15,14 @@ public class ScienceLabInventory {
     public static void main(String[] args) {
 	//recoveryPage.StartRecovery();
     	firstHomePage.StartFirstHomePage();
-  //adminPanel.StartAdminPanel();
+//adminPanel.StartAdminPanel();
     	
-  // homePage.ShowGUI();
+//homePage.ShowGUI();
      
   
-//inventoryPage.StartInventoryPage();
+ //inventoryPage.StartInventoryPage();
     	//scienceLabItems.saveToJson();
-   //labDashBoard.StartDashBoard();
+ // labDashBoard.StartDashBoard();
     	
     }
 }

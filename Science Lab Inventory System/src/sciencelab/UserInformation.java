@@ -43,9 +43,10 @@ public class UserInformation {
     public List<String> LastName = new ArrayList<>();
     public List<String> Birthdate = new ArrayList<>();
     public List<String> FirstName = new ArrayList<>();
-    private List<String> AccountDateCreated = new ArrayList<>();
+    public List<String> AccountDateCreated = new ArrayList<>();
     private List<String> LastLogin = new ArrayList<>();
     public List<String> UserHistory = new ArrayList<>();
+
     
 
   
@@ -99,7 +100,7 @@ public class UserInformation {
         LastName.add(lastName.toLowerCase());
         Password.add(password + Email.indexOf(emailAddress));
         showPasswordDialog(password + Email.indexOf(emailAddress));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\nh:mm:ss a");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy\n-h:mm:ss a");
         Date currentDate = new Date();
     	String formattedDateTime = dateFormat.format(currentDate);
     	AccountDateCreated.add(formattedDateTime);	
